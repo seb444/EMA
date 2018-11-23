@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "682135127616",
+    "firebase_url": "https://emafinal-c651a.firebaseio.com",
+    "project_id": "emafinal-c651a",
+    "storage_bucket": "emafinal-c651a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:682135127616:android:9b1493a58b5d9087",
+        "android_client_info": {
+          "package_name": "com.example.seb.ema"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "682135127616-90hnda1eeletf46s1fqgodn2qh6gh191.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCVFg_KB_nEEqeE2UopYfRvnsmskcstdXA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
