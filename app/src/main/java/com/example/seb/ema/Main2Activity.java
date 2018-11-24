@@ -1,9 +1,12 @@
 package com.example.seb.ema;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
@@ -17,18 +20,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.seb.ema.fragmentpagerefresh.MainActivityFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class Main2Activity extends AppCompatActivity
+import java.util.LinkedList;
+import java.util.List;
+
+public class Main2Activity extends FragmentActivity// extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     /**
      * The number of pages (wizard steps) to show in this demo.
      */
-    private static  int NUM_PAGES = 2;
+    private static  int NUM_PAGES = 7;
 
     /**
      * The pager widget, which handles animation and allows swiping horizontally to access previous
@@ -41,6 +49,9 @@ public class Main2Activity extends AppCompatActivity
      */
     private PagerAdapter mPagerAdapter;
 
+    List<android.support.v4.app.Fragment> allFragments = new LinkedList<>();
+
+
     FirebaseUser user;
     TextView textViewEmail;
     Button button;
@@ -50,7 +61,7 @@ public class Main2Activity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
         Toolbar toolbar =  findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+       // setSupportActionBar(toolbar);
 
         FloatingActionButton fab =  findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -118,6 +129,7 @@ public class Main2Activity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+        FragmentManager fragmentManager= getSupportFragmentManager();
         // Handle navigation view item clicks here.
         mPager = (ViewPager) findViewById(R.id.pager);
         int id = item.getItemId();
@@ -133,9 +145,19 @@ public class Main2Activity extends AppCompatActivity
 
             // Instantiate a ViewPager and a PagerAdapter.
 
-            mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
-            mPager.setAdapter(mPagerAdapter);
+         //   mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+          //  mPager.setAdapter(mPagerAdapter);
+
+
+           // allFragments  = fragmentManager.getFragments();
+            Intent intent = new Intent(getApplicationContext(), MainActivityFragment.class);
+            startActivity(intent);
+            finish();
+
         } else if (id == R.id.nav_gallery) {
+            for (android.support.v4.app.Fragment fragment:allFragments) {
+
+            }
 
         } else if (id == R.id.nav_slideshow) {
 
@@ -157,13 +179,19 @@ public class Main2Activity extends AppCompatActivity
         }
 
         @Override
-        public android.support.v4.app.Fragment getItem(int position) {
+        public ScreenSlidePageFragment getItem(int position) {
             return new ScreenSlidePageFragment();
         }
 
         @Override
         public int getCount() {
             return NUM_PAGES;
+        }
+
+        @NonNull
+        @Override
+        public Object instantiateItem(@NonNull ViewGroup container, int position) {
+            return super.instantiateItem(container, position);
         }
     }
 }

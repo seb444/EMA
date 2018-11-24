@@ -12,6 +12,7 @@ import android.view.ViewGroup;
  * A simple {@link Fragment} subclass.
  */
 import android.support.v4.app.Fragment;
+import android.widget.TextView;
 
 public class ScreenSlidePageFragment extends Fragment {
 
@@ -25,5 +26,8 @@ public class ScreenSlidePageFragment extends Fragment {
                 R.layout.fragment_screen_slide_page, container, false);
 
         return rootView;
+    }
+    public void changeTex(){
+
     }
 }
