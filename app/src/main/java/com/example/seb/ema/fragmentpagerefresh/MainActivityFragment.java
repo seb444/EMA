@@ -23,6 +23,8 @@ public class MainActivityFragment extends FragmentActivity {
             getSupportFragmentManager().beginTransaction().add(R.id.container, new FragmentMain()).commit();
         }
 
+
+
         //android.app.ActionBar actionBar = getActionBar();
         //actionBar.show();
 

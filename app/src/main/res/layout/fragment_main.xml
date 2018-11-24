@@ -21,7 +21,16 @@
             android:layout_height="fill_parent"
             android:layout_below="@android:id/tabs"
             android:padding="5dp"
-            android:background="#ffffff" />
+            android:background="#ffffff" >
+
+            <EditText
+                android:id="@+id/test45"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="Name" />
+        </FrameLayout>
 
 
     </RelativeLayout>
