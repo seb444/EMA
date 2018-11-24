@@ -9,11 +9,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.seb.ema.R;
-import com.example.seb.ema.Utils;
+import com.example.seb.ema.fragmentpagerefresh.Utils;
 import com.example.seb.ema.utils.ImageLoaderUtil;
 
 
@@ -25,17 +26,19 @@ public class SampleFragment extends Fragment {
     Utils.DummyItem dummyItem;
     private String TAG = "PagerFragment";
     private String title;
-
+    Button button;
     public SampleFragment() {
     }
 
     public static Fragment getInstance(/*String imageUrl, String title*/) {
         Fragment fragment = new SampleFragment();
-        //We will not pass the data through setArguments() method using bundle because it will not gets updated by calling notifyDataSetChanged()  method. We will do it through getter and setter.
-        //Bundle bundle = new Bundle();
-        //bundle.putString(Utils.EXTRA_IMAGE_URL, imageUrl);
-        //bundle.putString(Utils.EXTRA_TITLE, title);
-        //fragment.setArguments(bundle);
+        /*
+        We will not pass the data through setArguments() method using bundle because it will not gets updated by calling notifyDataSetChanged()  method. We will do it through getter and setter.
+        Bundle bundle = new Bundle();
+        bundle.putString(Utils.EXTRA_IMAGE_URL, imageUrl);
+        bundle.putString(Utils.EXTRA_TITLE, title);
+        fragment.setArguments(bundle);
+        */
         return fragment;
     }
 
@@ -50,6 +53,9 @@ public class SampleFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.i(TAG,"****PagerFragment onCreate()");
+
+        dummyItem.setImageTitle("TEEEEST");
+        dummyItem.setImageUrl("TEEEEST");
     }
 
     @Nullable
@@ -61,6 +67,7 @@ public class SampleFragment extends Fragment {
         //Bundle bundle = getArguments();
         //title = bundle.getString(Utils.EXTRA_TITLE);
         //titleTextView.setText(bundle.getString(Utils.EXTRA_TITLE));
+
         title = dummyItem.getImageTitle();
         titleTextView.setText(title);
         ImageView imageView = (ImageView) view.findViewById(R.id.image);

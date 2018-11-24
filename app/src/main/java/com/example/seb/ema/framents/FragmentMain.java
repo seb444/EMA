@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.seb.ema.R;
-import com.example.seb.ema.Utils;
+import com.example.seb.ema.fragmentpagerefresh.Utils;
 
 
 /**
@@ -69,13 +69,10 @@ public class FragmentMain extends Fragment implements FragmentTabHost.OnTabChang
         mTabHost = null;
     }
 
-
     @Override
     public void onTabChanged(String tabId) {
         Log.i(TAG, "onTabChanged*** tabId:"+tabId);
         switch (tabId){
-            case Utils.TAB_PAGER_ADAPTER:
-                break;
             case Utils.TAB_FRAGMENT_PAGER_ADAPTER:
                 break;
             case Utils.TAB_FRAGMENT_STATE_PAGER_ADAPTER:
