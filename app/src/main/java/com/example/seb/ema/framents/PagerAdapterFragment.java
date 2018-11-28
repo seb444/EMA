@@ -1,6 +1,7 @@
 package com.example.seb.ema.framents;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,13 +11,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 
+import com.example.seb.ema.MainActivity;
 import com.example.seb.ema.adapters.MyPagerAdapter;
+import com.example.seb.ema.fragmentpagerefresh.MainActivityFragment;
 import com.example.seb.ema.fragmentpagerefresh.Utils;
 import com.example.seb.ema.R;
+import com.google.firebase.auth.FirebaseAuth;
 
 /**
  * Created by noor on 10/04/15.
@@ -27,7 +32,7 @@ public class PagerAdapterFragment extends Fragment implements View.OnClickListen
     private MyPagerAdapter mPagerAdapter;
     private ViewPager mViewPager;
     private  String test;
-    private TextView textView;
+   // private  TextView textView;
     private Button button;
     private ArrayList<Utils.DummyItem> dummyItems;
     private static ArrayList<Utils.DummyItem> dummyItems2;
@@ -35,6 +40,7 @@ public class PagerAdapterFragment extends Fragment implements View.OnClickListen
     private  static  ArrayList<String> images=new ArrayList<>();
     private static ArrayList<String> andre=new ArrayList<>();
     Activity activity;
+
 
     /* Avoid non-default constructors in fragments: use a default constructor plus Fragment.setArguments(Bundle) instead and use Type value = getArguments().getType("key") to retrieve back the values in the bundle in onCreateView()*/
     public PagerAdapterFragment() {
@@ -52,11 +58,15 @@ public class PagerAdapterFragment extends Fragment implements View.OnClickListen
         ViewPager viewPager = (ViewPager) rootView.findViewById(R.id.viewpager);
         dummyItems=new ArrayList<>();
 
+
+
+
         dummyItems.addAll(Utils.getThumbImageList());
         dummyItems2=new ArrayList<>();
         mViewPager = (ViewPager) rootView.findViewById(R.id.viewpager);
         button=rootView.findViewById(R.id.button_thumb);
       //  textView=rootView.findViewById(R.id.teeeest);
+
         mPagerAdapter = new MyPagerAdapter(dummyItems, getActivity());
         mViewPager.setAdapter(mPagerAdapter);
 
@@ -72,16 +82,19 @@ public class PagerAdapterFragment extends Fragment implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.button_thumb:
+
                 dummyItems.clear();
-                textView=getActivity().findViewById(R.id.teeeest);
-                dummyItems2.add(new Utils.DummyItem("TEST","TEST"));//textView.getText().toString()
-                images.add("esaiofeawiofaw");
+                TextView textView1=v.getRootView().findViewById(R.id.test45);
+                dummyItems2.add(new Utils.DummyItem(textView1.getText().toString()+1,textView1.getText().toString()+1));//textView.getText().toString()
+                images.add(textView1.getText().toString()+1);
                 Utils.setImageThumbUrls(images);
                 Utils.setImageUrls(images);
+
                 dummyItems.addAll(Utils.getThumbImageList());
                 mPagerAdapter.notifyDataSetChanged();
 
-
+                Toast.makeText(this.getActivity(),textView1.getText().toString() ,
+                        Toast.LENGTH_SHORT).show();
 
 
                 break;
@@ -93,4 +106,6 @@ public class PagerAdapterFragment extends Fragment implements View.OnClickListen
 
         }
     }
+
+
 }
