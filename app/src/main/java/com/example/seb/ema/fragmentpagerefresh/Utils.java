@@ -1,6 +1,7 @@
 package com.example.seb.ema.fragmentpagerefresh;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by noor on 01/04/15.
@@ -17,6 +18,15 @@ public class Utils {
     public static class DummyItem{
         private String imageUrl;
         private String imageTitle;
+
+        private String exerciseName;
+        private double weight;
+        private int sets;
+        private Date startDate;
+        private Date endDate;
+        private double increaseWeightTime;
+        private double weightIncrease;
+        private String youtubeUrl;
 
         public DummyItem(String imageUrl, String imageTitle) {
             this.imageUrl = imageUrl;
@@ -113,7 +123,7 @@ public class Utils {
         ArrayList<DummyItem> fullImageList = new ArrayList<>();
 
         for (int i = 0; i < imageUrls.size(); i++) {
-            fullImageList.add(new DummyItem(imageUrls.get(i), "Full Image:"+i));
+            fullImageList.add(new DummyItem(imageUrls.get(i), imageUrls.get(i)+i));
         }
 
         return fullImageList;
