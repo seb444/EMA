@@ -54,6 +54,8 @@ public class FragmentMain extends Fragment implements FragmentTabHost.OnTabChang
         //By Default the title TextView of Tab shows all caps characters, we are making it setAllCaps(false).
         TextView tv =  (TextView) mTabHost.getTabWidget().getChildAt(0).findViewById(android.R.id.title);
         tv.setAllCaps(false);
+
+        //TextView textView= mTabHost.getTabWidget().getChildAt(0).findViewById(android.R.id.)
       //  tv =  (TextView)  mTabHost.getTabWidget().getChildAt(1).findViewById(android.R.id.title);
       //  tv.setAllCaps(false);
       //  tv =  (TextView) mTabHost.getTabWidget().getChildAt(2).findViewById(android.R.id.title);
@@ -80,4 +82,6 @@ public class FragmentMain extends Fragment implements FragmentTabHost.OnTabChang
         }
     }
 
+
 }
+

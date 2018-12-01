@@ -15,6 +15,8 @@ import com.example.seb.ema.fragmentpagerefresh.Utils;
 import com.example.seb.ema.R;
 import com.example.seb.ema.utils.ImageLoaderUtil;
 
+import org.w3c.dom.Text;
+
 
 /**
  * Created by noor on 01/04/15.
@@ -60,10 +62,18 @@ public class MyPagerAdapter extends PagerAdapter {
         View view = mLayoutInflater.inflate(R.layout.photo_layout, container, false);
         // Retrieve a TextView from the inflated View, and update it's text
         TextView titleTextView = (TextView) view.findViewById(R.id.title);
+        TextView textViewWeight= view.findViewById(R.id.textViewWeightO);
         Utils.DummyItem dummyItem = mDummyItems.get(position);
-        titleTextView.setText(dummyItem.getImageTitle());
+        titleTextView.setText(dummyItem.getExersiceName());
+        try{
+            textViewWeight.setText(Double.toString(dummyItem.getWeight()));
+        }catch (Exception e){
+
+
+        }
+
         ImageView imageView = (ImageView) view.findViewById(R.id.image);
-        ImageLoaderUtil.downloadImage(dummyItem.getImageUrl(), imageView);
+        ImageLoaderUtil.downloadImage(dummyItem.getExersiceName(), imageView);
         view.setTag(dummyItem);
         // Add the newly created View to the ViewPager
         container.addView(view);
