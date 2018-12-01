@@ -8,46 +8,80 @@ import java.util.Date;
  */
 public class Utils {
 
-    public static  String IMAGE_URL = "imageUrl";
+    public static  String EXERSICE_NAME = "ExerciseName";
     public static  String TAB_PAGER_ADAPTER="PagerAdapter";
     public static final String TAB_FRAGMENT_PAGER_ADAPTER="FragmentPagerAdapter";
     public static final String TAB_FRAGMENT_STATE_PAGER_ADAPTER="FragmentStatePagerAdapter";
     public static final String EXTRA_TITLE ="title";
-    public static final String EXTRA_IMAGE_URL ="imageUrl";
+    public static final String EXTRA_IMAGE_URL ="exersiceName";
 
     public static class DummyItem{
-        private String imageUrl;
-        private String imageTitle;
+        private String exersiceName;
+        private Double weight;
 
         private String exerciseName;
-        private double weight;
+    private int id;
         private int sets;
         private Date startDate;
         private Date endDate;
         private double increaseWeightTime;
         private double weightIncrease;
         private String youtubeUrl;
+        private static boolean first;
 
-        public DummyItem(String imageUrl, String imageTitle) {
-            this.imageUrl = imageUrl;
-            this.imageTitle = imageTitle;
+
+        public DummyItem(String exerciseName, Double weight,int id) {
+            this.exersiceName = exerciseName;
+            this.weight = weight;
+            this.id=id;
         }
 
-        public String getImageUrl() {
-            return imageUrl;
+        public String getExersiceName() {
+            return exersiceName;
         }
 
-        public String getImageTitle() {
-            return imageTitle;
+        public double getWeight() { return weight; }
+
+        public void setWeight(double weight) {
+            this.weight = weight;
         }
 
-        public void setImageTitle(String imageTitle) {
-            this.imageTitle = imageTitle;
+        public void setExersiceName(String exersiceName) {
+            this.exersiceName = exersiceName;
         }
 
-        public void setImageUrl(String imageUrl) {
-            this.imageUrl = imageUrl;
+        public static void setFirst(boolean first) {
+            DummyItem.first = first;
         }
+
+        public static boolean getFirst(){
+            return first;
+        }
+
+        public void setSets(int sets) {
+            this.sets = sets;
+        }
+
+        public void setStartDate(Date startDate) {
+            this.startDate = startDate;
+        }
+
+        public void setEndDate(Date endDate) {
+            this.endDate = endDate;
+        }
+
+        public void setIncreaseWeightTime(double increaseWeightTime) {
+            this.increaseWeightTime = increaseWeightTime;
+        }
+
+        public void setWeightIncrease(double weightIncrease) {
+            this.weightIncrease = weightIncrease;
+        }
+
+        public void setYoutubeUrl(String youtubeUrl) {
+            this.youtubeUrl = youtubeUrl;
+        }
+
 
         @Override
         public boolean equals(Object obj) {
@@ -59,10 +93,11 @@ public class Utils {
             }
 
             final DummyItem other = (DummyItem) obj;
-            if (!this.imageUrl.equals(other.imageUrl)) {
+
+            if (!this.exersiceName.equals(other.exersiceName)) {
                 return false;
             }
-            if (!this.imageTitle.equals(other.imageTitle)) {
+            if (!this.weight.equals(other.weight)) {
                 return false;
             }
 
@@ -82,37 +117,31 @@ public class Utils {
         }*/
     }
 
-    public  static ArrayList<String> imageThumbUrls = new ArrayList<String>() {
+    public  static ArrayList<String> exerciseNames = new ArrayList<String>() {
         {
-            add("TESST");
-            add("TESST");
-            add("TESST");
-            add("TESST");
+
         }
     };
 
-    public  static ArrayList<String> imageUrls = new ArrayList<String>() {{
-        add("TESST");
-        add("TESST");
-        add("TESST");
-        add("TESST");
+    public  static ArrayList<Double> weights = new ArrayList<Double>() {{
+
     }
 
     };
 
-    public static void setImageThumbUrls(ArrayList<String> imageThumbUrls) {
-        Utils.imageThumbUrls = imageThumbUrls;
+    public static void setExerciseNames(ArrayList<String> exerciseNames) {
+        Utils.exerciseNames = exerciseNames;
     }
 
-    public static void setImageUrls(ArrayList<String> imageUrls) {
-        Utils.imageUrls = imageUrls;
+    public static void setWeights(ArrayList<Double> weights) {
+        Utils.weights=weights;
     }
 
     public static ArrayList<DummyItem> getThumbImageList(){
         ArrayList<DummyItem> imageThumbsList = new ArrayList<>();
 
-        for (int i = 0; i < imageThumbUrls.size(); i++) {
-            imageThumbsList.add(new DummyItem(imageThumbUrls.get(i),imageThumbUrls.get(i)+i));
+        for (int i = 0; i < exerciseNames.size(); i++) {
+            imageThumbsList.add(new DummyItem(exerciseNames.get(i), weights.get(i),i));
         }
 
         return imageThumbsList;
@@ -122,9 +151,9 @@ public class Utils {
     public static ArrayList<DummyItem> getFullImageList(){
         ArrayList<DummyItem> fullImageList = new ArrayList<>();
 
-        for (int i = 0; i < imageUrls.size(); i++) {
-            fullImageList.add(new DummyItem(imageUrls.get(i), imageUrls.get(i)+i));
-        }
+        for (int i = 0; i < weights.size(); i++) {
+           fullImageList.add(new DummyItem(exerciseNames.get(i), weights.get(i),i));
+       }
 
         return fullImageList;
     }
