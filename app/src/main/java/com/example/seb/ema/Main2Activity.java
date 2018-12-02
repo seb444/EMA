@@ -173,25 +173,5 @@ public class Main2Activity extends FragmentActivity// extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-    private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
-        public ScreenSlidePagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
 
-        @Override
-        public ScreenSlidePageFragment getItem(int position) {
-            return new ScreenSlidePageFragment();
-        }
-
-        @Override
-        public int getCount() {
-            return NUM_PAGES;
-        }
-
-        @NonNull
-        @Override
-        public Object instantiateItem(@NonNull ViewGroup container, int position) {
-            return super.instantiateItem(container, position);
-        }
-    }
 }

@@ -29,27 +29,6 @@
 
         </FrameLayout>
 
-        <EditText
-            android:id="@+id/textViewWeight"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="202dp"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="123" />
-
-        <EditText
-            android:id="@+id/textViewExerciseN"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="294dp"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="test" />
 
     </RelativeLayout>
 
