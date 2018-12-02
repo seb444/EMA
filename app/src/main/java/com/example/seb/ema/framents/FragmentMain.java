@@ -16,6 +16,8 @@ import android.widget.TextView;
 import com.example.seb.ema.R;
 import com.example.seb.ema.fragmentpagerefresh.Utils;
 
+import org.w3c.dom.Text;
+
 
 /**
  * A placeholder fragment containing a simple view.
@@ -81,6 +83,7 @@ public class FragmentMain extends Fragment implements FragmentTabHost.OnTabChang
                 break;
         }
     }
+
 
 
 }

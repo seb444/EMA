@@ -5,28 +5,24 @@
     android:layout_height="match_parent"
     android:gravity="center">
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="225dp"
-        android:layout_height="79dp"
-        android:gravity="center"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:text="Title of Photo" />
-
-
-
     <ImageView
         android:id="@+id/image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/abc_btn_check_material"/>
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:text="Title of Photo"/>
+
 
     <TextView
-        android:id="@+id/textViewWeightO"
+        android:id="@+id/mWeightOut"
         android:layout_width="match_parent"
         android:layout_height="78dp"
         android:text="TextView" />
-
-
 </LinearLayout>

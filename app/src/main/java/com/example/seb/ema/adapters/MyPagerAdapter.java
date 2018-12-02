@@ -41,6 +41,7 @@ public class MyPagerAdapter extends PagerAdapter {
         return mDummyItems.size();
     }
 
+
     //Abstract method in PagerAdapter
 
     /**
@@ -62,7 +63,7 @@ public class MyPagerAdapter extends PagerAdapter {
         View view = mLayoutInflater.inflate(R.layout.photo_layout, container, false);
         // Retrieve a TextView from the inflated View, and update it's text
         TextView titleTextView = (TextView) view.findViewById(R.id.title);
-        TextView textViewWeight= view.findViewById(R.id.textViewWeightO);
+        TextView textViewWeight= view.findViewById(R.id.mWeightOut);
         Utils.DummyItem dummyItem = mDummyItems.get(position);
         titleTextView.setText(dummyItem.getExersiceName());
         try{
@@ -115,5 +116,9 @@ public class MyPagerAdapter extends PagerAdapter {
             // Returning POSITION_NONE means the current data does not matches the data this fragment is showing right now.  Returning POSITION_NONE constant will force the fragment to redraw its view layout all over again and show new data.
             return POSITION_NONE;
         }
+    }
+
+    public void hideWeightOut(){
+
     }
 }
