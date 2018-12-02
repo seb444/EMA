@@ -16,11 +16,9 @@ public class Utils {
     public static final String EXTRA_IMAGE_URL ="exersiceName";
 
     public static class DummyItem{
-        private String exersiceName;
-        private Double weight;
-
         private String exerciseName;
-    private int id;
+        private Double weight;
+        private int id;
         private int sets;
         private Date startDate;
         private Date endDate;
@@ -29,15 +27,21 @@ public class Utils {
         private String youtubeUrl;
         private static boolean first;
 
-
-        public DummyItem(String exerciseName, Double weight,int id) {
-            this.exersiceName = exerciseName;
+        public DummyItem(String exerciseName, Double weight, int id, int sets, Date startDate, Date endDate, double increaseWeightTime, double weightIncrease, String youtubeUrl) {
+            this.exerciseName = exerciseName;
             this.weight = weight;
-            this.id=id;
+            this.id = id;
+            this.sets = sets;
+            this.startDate = startDate;
+            this.endDate = endDate;
+            this.increaseWeightTime = increaseWeightTime;
+            this.weightIncrease = weightIncrease;
+            this.youtubeUrl = youtubeUrl;
         }
 
-        public String getExersiceName() {
-            return exersiceName;
+
+        public String getExerciseName() {
+            return exerciseName;
         }
 
         public double getWeight() { return weight; }
@@ -46,9 +50,7 @@ public class Utils {
             this.weight = weight;
         }
 
-        public void setExersiceName(String exersiceName) {
-            this.exersiceName = exersiceName;
-        }
+
 
         public static void setFirst(boolean first) {
             DummyItem.first = first;
@@ -94,7 +96,7 @@ public class Utils {
 
             final DummyItem other = (DummyItem) obj;
 
-            if (!this.exersiceName.equals(other.exersiceName)) {
+            if (!this.exerciseName.equals(other.exerciseName)) {
                 return false;
             }
             if (!this.weight.equals(other.weight)) {
@@ -137,25 +139,25 @@ public class Utils {
         Utils.weights=weights;
     }
 
-    public static ArrayList<DummyItem> getThumbImageList(){
-        ArrayList<DummyItem> imageThumbsList = new ArrayList<>();
-
-        for (int i = 0; i < exerciseNames.size(); i++) {
-            imageThumbsList.add(new DummyItem(exerciseNames.get(i), weights.get(i),i));
-        }
-
-        return imageThumbsList;
-    }
-
-
-    public static ArrayList<DummyItem> getFullImageList(){
-        ArrayList<DummyItem> fullImageList = new ArrayList<>();
-
-        for (int i = 0; i < weights.size(); i++) {
-           fullImageList.add(new DummyItem(exerciseNames.get(i), weights.get(i),i));
-       }
-
-        return fullImageList;
-    }
+//    public static ArrayList<DummyItem> getThumbImageList(){
+//        ArrayList<DummyItem> imageThumbsList = new ArrayList<>();
+//
+//        for (int i = 0; i < exerciseNames.size(); i++) {
+//            imageThumbsList.add(new DummyItem(exerciseNames.get(i), weights.get(i),i));
+//        }
+//
+//        return imageThumbsList;
+//    }
+//
+//
+//    public static ArrayList<DummyItem> getFullImageList(){
+//        ArrayList<DummyItem> fullImageList = new ArrayList<>();
+//
+//        for (int i = 0; i < weights.size(); i++) {
+//           fullImageList.add(new DummyItem(exerciseNames.get(i), weights.get(i),i));
+//       }
+//
+//        return fullImageList;
+//    }
 
 }
