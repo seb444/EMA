@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 import com.example.seb.ema.fragmentpagerefresh.Utils;
 import com.example.seb.ema.R;
-import com.example.seb.ema.utils.ImageLoaderUtil;
+
 
 import org.w3c.dom.Text;
 
@@ -62,10 +62,10 @@ public class MyPagerAdapter extends PagerAdapter {
         // Inflate a new layout from our resources
         View view = mLayoutInflater.inflate(R.layout.photo_layout, container, false);
         // Retrieve a TextView from the inflated View, and update it's text
-        TextView titleTextView = (TextView) view.findViewById(R.id.title);
+        TextView titleTextView = (TextView) view.findViewById(R.id.mExerciseNOut);
         TextView textViewWeight= view.findViewById(R.id.mWeightOut);
         Utils.DummyItem dummyItem = mDummyItems.get(position);
-        titleTextView.setText(dummyItem.getExersiceName());
+        titleTextView.setText(dummyItem.getExerciseName());
         try{
             textViewWeight.setText(Double.toString(dummyItem.getWeight()));
         }catch (Exception e){
@@ -74,7 +74,7 @@ public class MyPagerAdapter extends PagerAdapter {
         }
 
         ImageView imageView = (ImageView) view.findViewById(R.id.image);
-        ImageLoaderUtil.downloadImage(dummyItem.getExersiceName(), imageView);
+
         view.setTag(dummyItem);
         // Add the newly created View to the ViewPager
         container.addView(view);
@@ -118,7 +118,5 @@ public class MyPagerAdapter extends PagerAdapter {
         }
     }
 
-    public void hideWeightOut(){
 
-    }
 }

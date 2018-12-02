@@ -62,7 +62,7 @@ public class PagerAdapterFragment extends Fragment implements View.OnClickListen
 
 
 
-        dummyItems.addAll(Utils.getThumbImageList());
+
         dummyItems2=new ArrayList<>();
         mViewPager = (ViewPager) rootView.findViewById(R.id.viewpager);
         button=rootView.findViewById(R.id.mButtonShowIn);
@@ -90,17 +90,9 @@ public class PagerAdapterFragment extends Fragment implements View.OnClickListen
 
                 if(first){
 
-                    Fragment page = getFragmentManager().findFragmentById(1);
-                    // based on the current position you can then cast the page to the correct
-                    // class and call the method:
 
-                       // ((FragmentMain)page).updateList("new item");
-                    try{
-                        View testv=page.getView();
-                        hideOutput(testv);
-                    }catch(Exception e){
+                        hideOutput(v);
 
-                    }
 
 
 
@@ -116,12 +108,14 @@ public class PagerAdapterFragment extends Fragment implements View.OnClickListen
                 if(!first){
 
                     dummyItems.clear();
-                    TextView textView1=v.getRootView().findViewById(R.id.mExerciseNIn);
-                    TextView tv =v.getRootView().findViewById(R.id.mWeightIn);
+                    TextView enIn=v.getRootView().findViewById(R.id.mExerciseNIn);
+                    TextView weightIn =v.getRootView().findViewById(R.id.mWeightIn);
+                    TextView setsIn  =v.getRootView().findViewById(R.id.mSetsIn);
 
 
-                    dummyItems2.add(new Utils.DummyItem(textView1.getText().toString(),Double.parseDouble(tv.getText().toString()),i++));//textView.getText().toString()
-                    images.add(textView1.getText().toString()+1);
+
+                   // dummyItems2.add(new Utils.DummyItem(enIn.getText().toString(),Double.parseDouble(weightIn.getText().toString()),i++,));//textView.getText().toString()
+                    images.add(enIn.getText().toString()+1);
 
                     hideInput(v);
                     showOutput(v);
@@ -129,7 +123,7 @@ public class PagerAdapterFragment extends Fragment implements View.OnClickListen
                     dummyItems.addAll(dummyItems2);
                     mPagerAdapter.notifyDataSetChanged();
 
-                    Toast.makeText(this.getActivity(),textView1.getText().toString() ,
+                    Toast.makeText(this.getActivity(),enIn.getText().toString() ,
                             Toast.LENGTH_SHORT).show();
 
 
