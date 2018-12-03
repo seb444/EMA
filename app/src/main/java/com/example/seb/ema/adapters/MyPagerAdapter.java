@@ -62,12 +62,24 @@ public class MyPagerAdapter extends PagerAdapter {
         // Inflate a new layout from our resources
         View view = mLayoutInflater.inflate(R.layout.photo_layout, container, false);
         // Retrieve a TextView from the inflated View, and update it's text
-        TextView titleTextView = (TextView) view.findViewById(R.id.mExerciseNOut);
-        TextView textViewWeight= view.findViewById(R.id.mWeightOut);
+        TextView enIn=view.getRootView().findViewById(R.id.mExerciseNOut);
+        TextView weightIn =view.getRootView().findViewById(R.id.mWeightOut);
+        TextView setsIn  =view.getRootView().findViewById(R.id.mSetsOut);
+        TextView startDateIn=view.getRootView().findViewById(R.id.mStartDateOut);
+        TextView endDateIn=view.getRootView().findViewById(R.id.mEndDateOut);
+        TextView increaseWeightTimeIn=view.getRootView().findViewById(R.id.mIncreaseWeightTimeOut);
+        TextView weightIncreaseIn=view.getRootView().findViewById(R.id.mIncreaseWeightOut);
+
         Utils.DummyItem dummyItem = mDummyItems.get(position);
-        titleTextView.setText(dummyItem.getExerciseName());
+        enIn.setText(dummyItem.getExerciseName());
         try{
-            textViewWeight.setText(Double.toString(dummyItem.getWeight()));
+            weightIn.setText(Double.toString(dummyItem.getWeight()));
+            setsIn.setText(Double.toString(dummyItem.getSets()));
+            setsIn.setText(Double.toString(dummyItem.getSets()));
+            startDateIn.setText(dummyItem.getStartDate().toString());
+            endDateIn.setText(dummyItem.getEndDate().toString());
+            increaseWeightTimeIn.setText(Double.toString(dummyItem.getIncreaseWeightTime()));
+            weightIncreaseIn.setText(Double.toString(dummyItem.getWeightIncrease()));
         }catch (Exception e){
 
 

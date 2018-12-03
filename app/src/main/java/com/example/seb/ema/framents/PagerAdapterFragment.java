@@ -13,7 +13,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 
 import com.example.seb.ema.adapters.MyPagerAdapter;
@@ -107,14 +114,32 @@ public class PagerAdapterFragment extends Fragment implements View.OnClickListen
 
                 if(!first){
 
+
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+                    Date startIn;
+                    Date endIn;
                     dummyItems.clear();
                     TextView enIn=v.getRootView().findViewById(R.id.mExerciseNIn);
                     TextView weightIn =v.getRootView().findViewById(R.id.mWeightIn);
                     TextView setsIn  =v.getRootView().findViewById(R.id.mSetsIn);
+                    TextView startDateIn=v.getRootView().findViewById(R.id.mStartDateIn);
+                    TextView endDateIn=v.getRootView().findViewById(R.id.mEndDateIn);
+                    TextView increaseWeightTimeIn=v.getRootView().findViewById(R.id.mIncreaseWeightTimeIn);
+                    TextView weightIncreaseIn=v.getRootView().findViewById(R.id.mIncreaseWeightIn);
+
+                    String startI=startDateIn.getText().toString();
+                    String endI=endDateIn.getText().toString();
+                    try{
+                        startIn =  formatter.parse(startI);
+                        endIn= formatter.parse(endI);
+                    }catch(ParseException e){
+                        startIn=endIn=new Date(Calendar.YEAR,Calendar.MONTH,Calendar.DAY_OF_MONTH);
+                    }
 
 
 
-                   // dummyItems2.add(new Utils.DummyItem(enIn.getText().toString(),Double.parseDouble(weightIn.getText().toString()),i++,));//textView.getText().toString()
+                    dummyItems2.add(new Utils.DummyItem(enIn.getText().toString(),Double.parseDouble(weightIn.getText().toString()),i++,Integer.parseInt(setsIn.getText().toString()),startIn,endIn,Double.parseDouble(increaseWeightTimeIn.getText().toString()),Double.parseDouble(weightIncreaseIn.getText().toString()),"s"));//textView.getText().toString()
                     images.add(enIn.getText().toString()+1);
 
                     hideInput(v);

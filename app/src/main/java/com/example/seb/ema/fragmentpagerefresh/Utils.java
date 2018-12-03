@@ -24,6 +24,39 @@ public class Utils {
         private Date endDate;
         private double increaseWeightTime;
         private double weightIncrease;
+
+        public int getId() {
+            return id;
+        }
+
+        public int getSets() {
+            return sets;
+        }
+
+        public Date getStartDate() {
+            return startDate;
+        }
+
+        public Date getEndDate() {
+            return endDate;
+        }
+
+        public double getIncreaseWeightTime() {
+            return increaseWeightTime;
+        }
+
+        public double getWeightIncrease() {
+            return weightIncrease;
+        }
+
+        public String getYoutubeUrl() {
+            return youtubeUrl;
+        }
+
+        public static boolean isFirst() {
+            return first;
+        }
+
         private String youtubeUrl;
         private static boolean first;
 
