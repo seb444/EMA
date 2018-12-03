@@ -31,7 +31,7 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Main2Activity extends FragmentActivity// extends AppCompatActivity
+public class Main2Activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     /**
      * The number of pages (wizard steps) to show in this demo.
@@ -61,7 +61,7 @@ public class Main2Activity extends FragmentActivity// extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
         Toolbar toolbar =  findViewById(R.id.toolbar);
-       // setSupportActionBar(toolbar);
+        setSupportActionBar(toolbar);
 
         FloatingActionButton fab =  findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
