@@ -1,11 +1,14 @@
 package com.example.seb.ema.framents;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,9 +26,17 @@ import java.util.Date;
 import java.util.Locale;
 
 
+import com.example.seb.ema.Main2Activity;
 import com.example.seb.ema.adapters.MyPagerAdapter;
 import com.example.seb.ema.fragmentpagerefresh.Utils;
 import com.example.seb.ema.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 /**
  * Created by noor on 10/04/15.
@@ -47,6 +58,13 @@ public class PagerAdapterFragment extends Fragment implements View.OnClickListen
     private static ArrayList<Double> weights=new ArrayList<>();
     Activity activity;
     public static ViewPager vp;
+   // private DatabaseReference mDatabase;
+    private FirebaseDatabase mDatabase;
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+
+    FirebaseDatabase database;
+    DatabaseReference myRef;
 
     /* Avoid non-default constructors in fragments: use a default constructor plus Fragment.setArguments(Bundle) instead and use Type value = getArguments().getType("key") to retrieve back the values in the bundle in onCreateView()*/
     public PagerAdapterFragment() {
@@ -61,13 +79,17 @@ public class PagerAdapterFragment extends Fragment implements View.OnClickListen
       //  Button buttonFull = (Button) rootView.findViewById(R.id.button_full);
         buttonThumb.setOnClickListener(this);
 
+      mAuth=FirebaseAuth.getInstance();
+      mDatabase=FirebaseDatabase.getInstance();
+      //myRef=mDatabase.getReference();
+
 
        // buttonFull.setOnClickListener(this);
         ViewPager viewPager = (ViewPager) rootView.findViewById(R.id.viewpager);
         dummyItems=new ArrayList<>();
 
-
-
+         database = FirebaseDatabase.getInstance();
+         myRef = database.getReference("test");
 
 
         dummyItems2=new ArrayList<>();
@@ -79,6 +101,38 @@ public class PagerAdapterFragment extends Fragment implements View.OnClickListen
         mViewPager.setAdapter(mPagerAdapter);
 
         vp=mViewPager;
+
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    // User is signed in
+                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+
+                } else {
+                    // User is signed out
+                    Log.d(TAG, "onAuthStateChanged:signed_out");
+                }
+                // ...
+            }
+        };
+
+        // Read from the database
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
 
         return  rootView;
     }
@@ -156,7 +210,7 @@ public class PagerAdapterFragment extends Fragment implements View.OnClickListen
 
                     first=true;
 
-
+                    myRef.setValue(dummyItems2);
                 }
 
 
