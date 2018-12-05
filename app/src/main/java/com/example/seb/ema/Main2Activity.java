@@ -32,7 +32,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Main2Activity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener  {
     /**
      * The number of pages (wizard steps) to show in this demo.
      */

@@ -1,6 +1,8 @@
 package com.example.seb.ema.framents;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,6 +14,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,30 +45,35 @@ import com.google.firebase.database.ValueEventListener;
 /**
  * Created by noor on 10/04/15.
  */
-public class PagerAdapterFragment extends Fragment implements View.OnClickListener{
+public class PagerAdapterFragment extends Fragment implements View.OnClickListener, DatePickerDialog.OnDateSetListener {
 
     private static final String TAG = "PagerAdapterFragment";
     private MyPagerAdapter mPagerAdapter;
     private ViewPager mViewPager;
-    private  String test;
+    private String test;
     public static boolean first;
     public static boolean realfirst;
-   // private  TextView textView;
+    // private  TextView textView;
     private FloatingActionButton button;
-    private static int i=0;
+    private static int i = 0;
     private ArrayList<Utils.DummyItem> dummyItems;
     private static ArrayList<Utils.DummyItem> dummyItems2;
-    private  static  ArrayList<String> images=new ArrayList<>();
-    private static ArrayList<Double> weights=new ArrayList<>();
+    private static ArrayList<String> images = new ArrayList<>();
+    private static ArrayList<Double> weights = new ArrayList<>();
     Activity activity;
     public static ViewPager vp;
-   // private DatabaseReference mDatabase;
+    // private DatabaseReference mDatabase;
     private FirebaseDatabase mDatabase;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-
+    private Context context;
+    private int mYear, mMonth, mDay, mHour, mMinute;
+    private Calendar c, c2;
     FirebaseDatabase database;
     DatabaseReference myRef;
+
+    Button btnDatePicker, btnTimePicker;
+
 
     /* Avoid non-default constructors in fragments: use a default constructor plus Fragment.setArguments(Bundle) instead and use Type value = getArguments().getType("key") to retrieve back the values in the bundle in onCreateView()*/
     public PagerAdapterFragment() {
@@ -73,34 +82,41 @@ public class PagerAdapterFragment extends Fragment implements View.OnClickListen
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View  rootView = inflater.inflate(R.layout.fragment_sample,container, false);
+        View rootView = inflater.inflate(R.layout.fragment_sample, container, false);
         //rootView.setBackgroundColor(getResources().getColor(android.R.color.holo_red_light));
-        FloatingActionButton buttonThumb =  rootView.findViewById(R.id.mButtonShowIn);
-      //  Button buttonFull = (Button) rootView.findViewById(R.id.button_full);
+        FloatingActionButton buttonThumb = rootView.findViewById(R.id.mButtonShowIn);
+        //  Button buttonFull = (Button) rootView.findViewById(R.id.button_full);
         buttonThumb.setOnClickListener(this);
 
-      mAuth=FirebaseAuth.getInstance();
-      mDatabase=FirebaseDatabase.getInstance();
-      //myRef=mDatabase.getReference();
+        context = getContext();
+
+        btnDatePicker = (Button) rootView.findViewById(R.id.mStartDateIn);
+        btnTimePicker = (Button) rootView.findViewById(R.id.mEndDateIn);
+
+        btnDatePicker.setOnClickListener(this);
+        btnTimePicker.setOnClickListener(this);
+        mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance();
+        //myRef=mDatabase.getReference();
 
 
-       // buttonFull.setOnClickListener(this);
+        // buttonFull.setOnClickListener(this);
         ViewPager viewPager = (ViewPager) rootView.findViewById(R.id.viewpager);
-        dummyItems=new ArrayList<>();
+        dummyItems = new ArrayList<>();
 
-         database = FirebaseDatabase.getInstance();
-         myRef = database.getReference("test");
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference("test");
 
 
-        dummyItems2=new ArrayList<>();
+        dummyItems2 = new ArrayList<>();
         mViewPager = (ViewPager) rootView.findViewById(R.id.viewpager);
-        button=rootView.findViewById(R.id.mButtonShowIn);
-            //  textView=rootView.findViewById(R.id.teeeest);
+        button = rootView.findViewById(R.id.mButtonShowIn);
+        //  textView=rootView.findViewById(R.id.teeeest);
 
         mPagerAdapter = new MyPagerAdapter(dummyItems, getActivity());
         mViewPager.setAdapter(mPagerAdapter);
 
-        vp=mViewPager;
+        vp = mViewPager;
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -119,7 +135,7 @@ public class PagerAdapterFragment extends Fragment implements View.OnClickListen
         };
 
         // Read from the database
-        myRef.addValueEventListener(new ValueEventListener() {
+        ValueEventListener valueEventListener = myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
@@ -134,67 +150,90 @@ public class PagerAdapterFragment extends Fragment implements View.OnClickListen
             }
         });
 
-        return  rootView;
+
+        return rootView;
     }
 
 
     @Override
     public void onClick(View v) {
         FloatingActionButton btnSIn = v.getRootView().findViewById(R.id.mButtonShowIn);
-       // FloatingActionButton btnAdd = v.getRootView().findViewById(R.id.mButtonAddTP);
+        // FloatingActionButton btnAdd = v.getRootView().findViewById(R.id.mButtonAddTP);
 
-        switch (v.getId()){
+        switch (v.getId()) {
+
+            case R.id.mStartDateIn:
+                c = Calendar.getInstance();
+                mYear = c.get(Calendar.YEAR);
+                mMonth = c.get(Calendar.MONTH);
+                mDay = c.get(Calendar.DAY_OF_MONTH);
 
 
+                DatePickerDialog datePickerDialog = new DatePickerDialog(context,
+                        new DatePickerDialog.OnDateSetListener() {
+
+                            @Override
+                            public void onDateSet(DatePicker view, int year,
+                                                  int monthOfYear, int dayOfMonth) {
+
+                                btnDatePicker.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+
+                            }
+                        }, mYear, mMonth, mDay);
+                datePickerDialog.show();
+
+                break;
+
+            case R.id.mEndDateIn:
+                c2 = Calendar.getInstance();
+                mYear = c2.get(Calendar.YEAR);
+                mMonth = c2.get(Calendar.MONTH);
+                mDay = c2.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog datePickerDialog2 = new DatePickerDialog(context,
+                        (view, year, monthOfYear, dayOfMonth) -> btnDatePicker.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year), mYear, mMonth, mDay);
+                datePickerDialog2.show();
+
+                break;
 
             case R.id.mButtonShowIn:
 
-                if(first){
+                if (first) {
 
 
-                        hideOutput(v);
-
-
+                    hideOutput(v);
 
 
                     showInput(v);
 
 
-
-
-                    first=false;
+                    first = false;
                     break;
                 }
 
-                if(!first){
+                if (!first) {
 
 
-                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
 
                     Date startIn;
                     Date endIn;
                     dummyItems.clear();
-                    TextView enIn=v.getRootView().findViewById(R.id.mExerciseNIn);
-                    TextView weightIn =v.getRootView().findViewById(R.id.mWeightIn);
-                    TextView setsIn  =v.getRootView().findViewById(R.id.mSetsIn);
-                    TextView startDateIn=v.getRootView().findViewById(R.id.mStartDateIn);
-                    TextView endDateIn=v.getRootView().findViewById(R.id.mEndDateIn);
-                    TextView increaseWeightTimeIn=v.getRootView().findViewById(R.id.mIncreaseWeightTimeIn);
-                    TextView weightIncreaseIn=v.getRootView().findViewById(R.id.mIncreaseWeightIn);
+                    TextView enIn = v.getRootView().findViewById(R.id.mExerciseNIn);
+                    TextView weightIn = v.getRootView().findViewById(R.id.mWeightIn);
+                    TextView setsIn = v.getRootView().findViewById(R.id.mSetsIn);
+                    Button startDateIn = v.getRootView().findViewById(R.id.mStartDateIn);
+                    Button endDateIn = v.getRootView().findViewById(R.id.mEndDateIn);
+                    TextView increaseWeightTimeIn = v.getRootView().findViewById(R.id.mIncreaseWeightTimeIn);
+                    TextView weightIncreaseIn = v.getRootView().findViewById(R.id.mIncreaseWeightIn);
 
-                    String startI=startDateIn.getText().toString();
-                    String endI=endDateIn.getText().toString();
-                    try{
-                        startIn =  formatter.parse(startI);
-                        endIn= formatter.parse(endI);
-                    }catch(ParseException e){
-                        startIn=endIn=new Date(Calendar.YEAR,Calendar.MONTH,Calendar.DAY_OF_MONTH);
-                    }
+                    String startI = startDateIn.getText().toString();
+                    String endI = endDateIn.getText().toString();
+                        startIn = c.getTime();
+                        endIn = c2.getTime();
 
-
-
-                    dummyItems2.add(new Utils.DummyItem(enIn.getText().toString(),Double.parseDouble(weightIn.getText().toString()),i++,Integer.parseInt(setsIn.getText().toString()),startIn,endIn,Double.parseDouble(increaseWeightTimeIn.getText().toString()),Double.parseDouble(weightIncreaseIn.getText().toString()),"s"));//textView.getText().toString()
-                    images.add(enIn.getText().toString()+1);
+                    dummyItems2.add(new Utils.DummyItem(enIn.getText().toString(), Double.parseDouble(weightIn.getText().toString()), i++, Integer.parseInt(setsIn.getText().toString()), startIn, endIn, Double.parseDouble(increaseWeightTimeIn.getText().toString()), Double.parseDouble(weightIncreaseIn.getText().toString()), "s"));//textView.getText().toString()
+                    images.add(enIn.getText().toString() + 1);
 
                     hideInput(v);
                     showOutput(v);
@@ -202,65 +241,63 @@ public class PagerAdapterFragment extends Fragment implements View.OnClickListen
                     dummyItems.addAll(dummyItems2);
                     mPagerAdapter.notifyDataSetChanged();
 
-                    Toast.makeText(this.getActivity(),enIn.getText().toString() ,
+                    Toast.makeText(this.getActivity(), enIn.getText().toString(),
                             Toast.LENGTH_SHORT).show();
 
 
-
-
-                    first=true;
+                    first = true;
 
                     myRef.setValue(dummyItems2);
                 }
 
 
-               // dummyItems.clear();
-               // dummyItems.addAll(dummyItems2);
+                // dummyItems.clear();
+                // dummyItems.addAll(dummyItems2);
 
 
-              //  mPagerAdapter.notifyDataSetChanged();
-                break;
-
+                //  mPagerAdapter.notifyDataSetChanged();
         }
     }
 
-    public void hideInput(View v){
-        TextView textView =  v.getRootView().findViewById(R.id.mWeightIn);
-        TextView textView1=v.getRootView().findViewById(R.id.mExerciseNIn);
+    public void hideInput(View v) {
+        TextView textView = v.getRootView().findViewById(R.id.mWeightIn);
+        TextView textView1 = v.getRootView().findViewById(R.id.mExerciseNIn);
         textView.setVisibility(View.INVISIBLE);
         textView1.setVisibility(View.INVISIBLE);
     }
 
-    public void showInput(View v){
+    public void showInput(View v) {
         TextView textView = v.getRootView().findViewById(R.id.mWeightIn);
-        TextView textView1=v.getRootView().findViewById(R.id.mExerciseNIn);
+        TextView textView1 = v.getRootView().findViewById(R.id.mExerciseNIn);
         textView.setVisibility(View.VISIBLE);
         textView1.setVisibility(View.VISIBLE);
     }
 
-    public void hideOutput(View v){
-            try{
-                TextView textView = v.findViewById(R.id.mWeightOut);
-              //  TextView textView1= v.getRootView().findViewById(R.id.title);
-                textView.setVisibility(View.INVISIBLE);
-             //   textView1.setVisibility(View.INVISIBLE);
-            }catch(Exception e){}
-
-
-
-
+    public void hideOutput(View v) {
+        try {
+            TextView textView = v.findViewById(R.id.mWeightOut);
+            //  TextView textView1= v.getRootView().findViewById(R.id.title);
+            textView.setVisibility(View.INVISIBLE);
+            //   textView1.setVisibility(View.INVISIBLE);
+        } catch (Exception e) {
+        }
 
 
     }
 
-    public void showOutput(View v){
-        try{
-        TextView textView = v.getRootView().findViewById(R.id.mWeightOut);
-        TextView textView1= v.getRootView().findViewById(R.id.title);
-        textView.setVisibility(View.VISIBLE);
-        textView1.setVisibility(View.VISIBLE);
-        }catch (Exception e){
+    public void showOutput(View v) {
+        try {
+            TextView textView = v.getRootView().findViewById(R.id.mWeightOut);
+            TextView textView1 = v.getRootView().findViewById(R.id.title);
+            textView.setVisibility(View.VISIBLE);
+            textView1.setVisibility(View.VISIBLE);
+        } catch (Exception e) {
 
         }
+    }
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+
     }
 }

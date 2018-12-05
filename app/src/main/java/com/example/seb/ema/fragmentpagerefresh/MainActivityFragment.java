@@ -1,9 +1,11 @@
 package com.example.seb.ema.fragmentpagerefresh;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.widget.DatePicker;
 
 import com.example.seb.ema.Main2Activity;
 import com.example.seb.ema.R;
@@ -47,4 +49,6 @@ public class MainActivityFragment extends FragmentActivity {
         startActivity(intent);
         finish();
     }
+
+
 }
