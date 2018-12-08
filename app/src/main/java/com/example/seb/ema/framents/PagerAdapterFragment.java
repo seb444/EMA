@@ -27,7 +27,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 
 import com.example.seb.ema.Main2Activity;
@@ -71,6 +73,7 @@ public class PagerAdapterFragment extends Fragment implements View.OnClickListen
     private Calendar c, c2;
     FirebaseDatabase database;
     DatabaseReference myRef;
+    DatabaseReference mUserRef;
 
     Button btnDatePicker, btnTimePicker;
 
@@ -105,7 +108,7 @@ public class PagerAdapterFragment extends Fragment implements View.OnClickListen
         dummyItems = new ArrayList<>();
 
         database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("test");
+        myRef = database.getReference();
 
 
         dummyItems2 = new ArrayList<>();
@@ -247,7 +250,14 @@ public class PagerAdapterFragment extends Fragment implements View.OnClickListen
 
                     first = true;
 
-                    myRef.setValue(dummyItems2);
+                    Map<String, String> user_info = new HashMap<String, String>();
+
+                   FirebaseUser user =mAuth.getCurrentUser();
+                    user_info.put("uid",user.getUid());
+
+
+                    myRef.push().setValue(user_info);
+                   // myRef.setValue(dummyItems2);
                 }
 
 

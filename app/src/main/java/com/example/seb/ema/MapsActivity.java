@@ -13,27 +13,98 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.seb.ema.fragmentpagerefresh.mLatLng;
+import com.example.seb.ema.fragmentpagerefresh.stringMLatLng;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by User on 10/2/2017.
  */
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
+    FirebaseDatabase database;
+    DatabaseReference mRef;
+    Location currentLocation;
+    FirebaseUser user;
+    DatabaseReference myRef;
+    private FirebaseAuth mAuth;
+    public static int count =0;
+     List<mLatLng> mLatLngs=new ArrayList<>();
 
+     List<stringMLatLng>lngs = new ArrayList<>();
     @Override
     public void onMapReady(GoogleMap googleMap) {
         Toast.makeText(this, "Map is Ready", Toast.LENGTH_SHORT).show();
         Log.d(TAG, "onMapReady: map is ready");
         mMap = googleMap;
+        mAuth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance();
+        mRef = database.getReference();
+
+        user=mAuth.getCurrentUser();
+
+
+       mRef.child("positions").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                LatLng mapsLatLng;
+                Map<String,mLatLng> stringmLatLngMap= new HashMap<>();
+                //mLatLng post= dataSnapshot.getValue(mLatLng.class);
+                Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+
+              for (DataSnapshot d:children) {
+                   stringMLatLng latLng = d.getValue(stringMLatLng.class);
+
+                 Log.v("TAG", d.getKey());
+                  Log.v("TAG", d.getValue().toString());
+                 // Log.v("HIERFEHLER", latLng.getmLatLng().getLatitude()+toString());
+                 lngs.add(latLng);
+               }
+                for (stringMLatLng lng:lngs) {
+                    Log.v("HIERFEHLER", lng.getmLatLng().getLatitude()+toString());
+                    Toast.makeText(MapsActivity.this, "nice" + lng.getmLatLng().getLatitude() +"\n"+ lng.getmLatLng().getLongitude(), Toast.LENGTH_SHORT).show();
+                    mapsLatLng = new LatLng(lng.getmLatLng().getLatitude(), lng.getmLatLng().getLongitude());
+                    mMap.addMarker(new MarkerOptions()
+                            .position(mapsLatLng)
+                            .alpha(454)
+                            .title("test")
+                            .snippet("and snippet")
+                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+                    moveCamera(new LatLng(lng.getmLatLng().getLatitude(), lng.getmLatLng().getLongitude()),20);
+              }
+            
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+        });
+
 
         if (mLocationPermissionsGranted) {
             getDeviceLocation();
@@ -49,7 +120,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
-    private static final String TAG = "MapActivity";
+    private static final String TAG = "MapsActivity";
 
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
     private static final String COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
@@ -65,6 +136,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+
 
         getLocationPermission();
     }
@@ -83,10 +156,32 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     public void onComplete(@NonNull Task task) {
                         if(task.isSuccessful()){
                             Log.d(TAG, "onComplete: found location!");
-                            Location currentLocation = (Location) task.getResult();
+                             currentLocation = (Location) task.getResult();
+                            try{
+                                moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()),
+                                        DEFAULT_ZOOM);
+                            }catch (Exception e){
 
-                            moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()),
-                                    DEFAULT_ZOOM);
+                            }
+
+
+                            Map<String, mLatLng> user_info = new HashMap<String, mLatLng>();
+
+                            myRef=database.getReference().child("positions");
+                            FirebaseUser user =mAuth.getCurrentUser();
+                            mLatLng lng= new mLatLng();
+                            try{
+                                lng.setLatitude(currentLocation.getLatitude());
+                                lng.setLongitude(currentLocation.getLongitude());
+                            }catch(Exception e){}
+
+                            user_info.put(user.getUid(),lng);
+
+                            stringMLatLng stringMLatLng= new stringMLatLng();
+                            stringMLatLng.setmLatLng(lng);
+                            stringMLatLng.setUid(user.getUid());
+
+                            myRef.push().setValue(stringMLatLng);
 
                         }else{
                             Log.d(TAG, "onComplete: current location is null");
