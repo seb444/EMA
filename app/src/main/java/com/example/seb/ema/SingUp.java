@@ -37,7 +37,7 @@ public class SingUp extends AppCompatActivity {
 
         editText=findViewById(R.id.editText_email);
         editTextPassword=findViewById(R.id.editText_password);
-       signUpButton=findViewById(R.id.buttonSignUp1);
+        signUpButton=findViewById(R.id.buttonSignUp1);
 
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override

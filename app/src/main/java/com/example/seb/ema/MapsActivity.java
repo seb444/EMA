@@ -2,9 +2,15 @@ package com.example.seb.ema;
 
 import android.*;
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import java.lang.Object;
+import android.icu.util.TimeUnit;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.renderscript.Sampler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -34,11 +40,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 /**
  * Created by User on 10/2/2017.
@@ -53,6 +61,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private FirebaseAuth mAuth;
     public static int count =0;
      List<mLatLng> mLatLngs=new ArrayList<>();
+     static int test=0;
+    ValueEventListener listener;
+    static String key;
 
      List<stringMLatLng>lngs = new ArrayList<>();
     @Override
@@ -63,41 +74,68 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
         mRef = database.getReference();
-
         user=mAuth.getCurrentUser();
 
+        final Handler handler = new Handler(Looper.getMainLooper());
+        Runnable runnable = null;
 
-       mRef.child("positions").addValueEventListener(new ValueEventListener() {
+
+
+       listener= mRef.child("positions").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                LatLng mapsLatLng;
-                Map<String,mLatLng> stringmLatLngMap= new HashMap<>();
-                //mLatLng post= dataSnapshot.getValue(mLatLng.class);
-                Iterable<DataSnapshot> children = dataSnapshot.getChildren();
 
-              for (DataSnapshot d:children) {
-                   stringMLatLng latLng = d.getValue(stringMLatLng.class);
+                        LatLng mapsLatLng;
+                        Map<String,mLatLng> stringmLatLngMap= new HashMap<>();
+                        //mLatLng post= dataSnapshot.getValue(mLatLng.class);
+                        Iterable<DataSnapshot> children = dataSnapshot.getChildren();
 
-                 Log.v("TAG", d.getKey());
-                  Log.v("TAG", d.getValue().toString());
-                 // Log.v("HIERFEHLER", latLng.getmLatLng().getLatitude()+toString());
-                 lngs.add(latLng);
-               }
-                for (stringMLatLng lng:lngs) {
-                    Log.v("HIERFEHLER", lng.getmLatLng().getLatitude()+toString());
-                    Toast.makeText(MapsActivity.this, "nice" + lng.getmLatLng().getLatitude() +"\n"+ lng.getmLatLng().getLongitude(), Toast.LENGTH_SHORT).show();
-                    mapsLatLng = new LatLng(lng.getmLatLng().getLatitude(), lng.getmLatLng().getLongitude());
-                    mMap.addMarker(new MarkerOptions()
-                            .position(mapsLatLng)
-                            .alpha(454)
-                            .title("test")
-                            .snippet("and snippet")
-                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
-                    moveCamera(new LatLng(lng.getmLatLng().getLatitude(), lng.getmLatLng().getLongitude()),20);
-              }
-            
 
-            }
+                        for (DataSnapshot d:children) {
+
+                            //   mRef.child("positions").child(d.getKey()).removeValue();
+
+                            stringMLatLng latLng = d.getValue(stringMLatLng.class);
+
+                            Log.v("KEYIS", d.getKey());
+                            Log.v("VALUEIS", d.getValue().toString());
+                            // Log.v("HIERFEHLER", latLng.getmLatLng().getLatitude()+toString());
+                            /* if(!d.getKey().equals(user.getUid()))**/   lngs.add(latLng);
+
+
+                        }
+
+
+
+                        for (stringMLatLng lng : lngs) {
+                            Log.v("HIERFEHLER", lng.getmLatLng().getLatitude() + toString());
+                            Toast.makeText(MapsActivity.this, "nice" + lng.getmLatLng().getLatitude() + "\n" + lng.getmLatLng().getLongitude(), Toast.LENGTH_SHORT).show();
+                            mapsLatLng = new LatLng(lng.getmLatLng().getLatitude(), lng.getmLatLng().getLongitude());
+                            mMap.addMarker(new MarkerOptions()
+                                    .position(mapsLatLng)
+                                    .alpha(454)
+                                    .title("test")
+                                    .snippet("and snippet")
+                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+                            //   moveCamera(new LatLng(lng.getmLatLng().getLatitude(), lng.getmLatLng().getLongitude()), 20);
+                        }
+                        lngs.clear();
+
+
+
+
+
+                    }
+
+
+
+
+
+
+
+
+
+
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -118,6 +156,16 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
 
         }
+
+        key= mRef.child("positions").push().getKey();
+
+        Job myJob= new Job();
+        myJob.run();
+
+
+
+
+
     }
 
     private static final String TAG = "MapsActivity";
@@ -145,8 +193,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private void getDeviceLocation(){
         Log.d(TAG, "getDeviceLocation: getting the devices current location");
 
-        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
+        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         try{
             if(mLocationPermissionsGranted){
 
@@ -158,8 +206,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                             Log.d(TAG, "onComplete: found location!");
                              currentLocation = (Location) task.getResult();
                             try{
-                                moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()),
-                                        DEFAULT_ZOOM);
+                                if(count==0){
+                                    moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()),
+                                            DEFAULT_ZOOM);
+                                }
+                                count++;
                             }catch (Exception e){
 
                             }
@@ -167,7 +218,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                             Map<String, mLatLng> user_info = new HashMap<String, mLatLng>();
 
-                            myRef=database.getReference().child("positions");
+                            myRef=mRef.child("positions/"+key);
                             FirebaseUser user =mAuth.getCurrentUser();
                             mLatLng lng= new mLatLng();
                             try{
@@ -177,11 +228,33 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                             user_info.put(user.getUid(),lng);
 
+
+
+
                             stringMLatLng stringMLatLng= new stringMLatLng();
                             stringMLatLng.setmLatLng(lng);
-                            stringMLatLng.setUid(user.getUid());
+                            Random random =new Random(30);
 
-                            myRef.push().setValue(stringMLatLng);
+
+
+
+                                    mMap.clear();
+                                     stringMLatLng.setUid(user.getUid()+random);
+
+                                    myRef.setValue(stringMLatLng);
+
+
+
+
+                               Log.v("Threaisalive", "nice");
+
+
+                           test=0;
+
+
+
+
+
 
                         }else{
                             Log.d(TAG, "onComplete: current location is null");
@@ -189,6 +262,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                         }
                     }
                 });
+
+
             }
         }catch (SecurityException e){
             Log.e(TAG, "getDeviceLocation: SecurityException: " + e.getMessage() );
@@ -230,6 +305,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         Log.d(TAG, "onRequestPermissionsResult: called.");
@@ -254,4 +330,37 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(getApplicationContext(), Main2Activity.class);
+        startActivity(intent);
+        finish();
+    }
+
+
+
+
+    private class Job implements Runnable{
+        private Handler handler;
+
+        public Job () {
+            handler = new Handler(Looper.getMainLooper());
+            loop();
+        }
+
+        @Override
+        public void run() {
+            // funky stuff
+            getDeviceLocation();
+            loop();
+        }
+
+        private void loop() {
+            handler.postDelayed(this, 2000);
+        }
+    }
+
+
 }
+
+
