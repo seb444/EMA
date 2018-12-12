@@ -27,6 +27,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.seb.ema.fragmentpagerefresh.Main3Activity;
 import com.example.seb.ema.fragmentpagerefresh.MainActivityFragment;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -175,8 +176,11 @@ public class Main2Activity extends AppCompatActivity
             }
 
 
-        } else if (id == R.id.nav_slideshow) {
 
+        } else if (id == R.id.nav_slideshow) {
+            Intent intent = new Intent(getApplicationContext(), Main3Activity.class);
+            startActivity(intent);
+            finish();
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {

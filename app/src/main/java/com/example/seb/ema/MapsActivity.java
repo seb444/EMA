@@ -53,6 +53,8 @@ import java.util.concurrent.ScheduledExecutorService;
  */
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
+    private final Handler mHandler = new Handler();
+    private Runnable mTimer2;
     FirebaseDatabase database;
     DatabaseReference mRef;
     Location currentLocation;
@@ -64,6 +66,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
      static int test=0;
     ValueEventListener listener;
     static String key;
+    Job myJob;
 
      List<stringMLatLng>lngs = new ArrayList<>();
     @Override
@@ -108,16 +111,21 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
                         for (stringMLatLng lng : lngs) {
-                            Log.v("HIERFEHLER", lng.getmLatLng().getLatitude() + toString());
-                            Toast.makeText(MapsActivity.this, "nice" + lng.getmLatLng().getLatitude() + "\n" + lng.getmLatLng().getLongitude(), Toast.LENGTH_SHORT).show();
-                            mapsLatLng = new LatLng(lng.getmLatLng().getLatitude(), lng.getmLatLng().getLongitude());
-                            mMap.addMarker(new MarkerOptions()
-                                    .position(mapsLatLng)
-                                    .alpha(454)
-                                    .title("test")
-                                    .snippet("and snippet")
-                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
-                            //   moveCamera(new LatLng(lng.getmLatLng().getLatitude(), lng.getmLatLng().getLongitude()), 20);
+                            try{
+                                Log.v("HIERFEHLER", lng.getmLatLng().getLatitude() + toString());
+                                Toast.makeText(MapsActivity.this, "nice" + lng.getmLatLng().getLatitude() + "\n" + lng.getmLatLng().getLongitude(), Toast.LENGTH_SHORT).show();
+                                mapsLatLng = new LatLng(lng.getmLatLng().getLatitude(), lng.getmLatLng().getLongitude());
+                                mMap.addMarker(new MarkerOptions()
+                                        .position(mapsLatLng)
+                                        .alpha(454)
+                                        .title("test")
+                                        .snippet("and snippet")
+                                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+                                //   moveCamera(new LatLng(lng.getmLatLng().getLatitude(), lng.getmLatLng().getLongitude()), 20);
+                            }catch(Exception e){
+
+                            }
+
                         }
                         lngs.clear();
 
@@ -159,8 +167,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         key= mRef.child("positions").push().getKey();
 
-        Job myJob= new Job();
-        myJob.run();
 
 
 
@@ -337,12 +343,39 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         finish();
     }
 
+    @Override
+    public void onPause() {
+        mHandler.removeCallbacks(mTimer2);
+        super.onPause();
+    }
 
+//    @Override
+//    protected void onResume() {
+//        if(myJob!=null){
+//            myJob.resumeMyRunnable();
+//
+//        }
+//        super.onResume();
+//    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        mTimer2 = new Runnable() {
+            @Override
+            public void run() {
+
+               getDeviceLocation();
+                mHandler.postDelayed(this, 200);
+            }
+        };
+        mHandler.postDelayed(mTimer2, 1000);
+    }
 
     private class Job implements Runnable{
         private Handler handler;
-
+        private boolean stop=false;
         public Job () {
             handler = new Handler(Looper.getMainLooper());
             loop();
@@ -351,8 +384,18 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         @Override
         public void run() {
             // funky stuff
-            getDeviceLocation();
-            loop();
+            if(!stop){
+                getDeviceLocation();
+                loop();
+            }
+
+        }
+        public void stopMyRunnable(){
+            stop=true;
+        }
+
+        public void resumeMyRunnable(){
+            stop=false;
         }
 
         private void loop() {
