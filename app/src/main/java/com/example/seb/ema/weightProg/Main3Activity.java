@@ -1,16 +1,13 @@
-package com.example.seb.ema.fragmentpagerefresh;
+package com.example.seb.ema.weightProg;
 
-import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.widget.DatePicker;
 
 import com.example.seb.ema.Main2Activity;
 import com.example.seb.ema.R;
-import com.example.seb.ema.WeightProgress;
-import com.example.seb.ema.framents.FragmentMain;
+import com.example.seb.ema.weightProg.WeightProgress;
 
 
 public class Main3Activity extends FragmentActivity {
@@ -50,6 +47,4 @@ public class Main3Activity extends FragmentActivity {
         startActivity(intent);
         finish();
     }
-
-
 }
