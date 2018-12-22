@@ -1,9 +1,5 @@
 package com.example.seb.ema.framents;
 
-/**
- * Created by noor on 31/03/15.
- */
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTabHost;
@@ -12,11 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import com.example.seb.ema.R;
 import com.example.seb.ema.fragmentpagerefresh.Utils;
-
-import org.w3c.dom.Text;
 
 
 /**
@@ -37,8 +30,7 @@ public class FragmentMain extends Fragment implements FragmentTabHost.OnTabChang
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-        //mTabHost = new FragmentTabHost(getActivity());
-        mTabHost = (FragmentTabHost)rootView.findViewById(R.id.tabhost);
+        mTabHost = rootView.findViewById(R.id.tabhost);
         mTabHost.setup(getActivity(), getChildFragmentManager(), android.R.id.tabcontent);
         Bundle bundle = new Bundle();
         bundle.putString(Utils.EXTRA_TITLE, Utils.TAB_PAGER_ADAPTER);
@@ -56,12 +48,6 @@ public class FragmentMain extends Fragment implements FragmentTabHost.OnTabChang
         //By Default the title TextView of Tab shows all caps characters, we are making it setAllCaps(false).
         TextView tv =  (TextView) mTabHost.getTabWidget().getChildAt(0).findViewById(android.R.id.title);
         tv.setAllCaps(false);
-
-        //TextView textView= mTabHost.getTabWidget().getChildAt(0).findViewById(android.R.id.)
-      //  tv =  (TextView)  mTabHost.getTabWidget().getChildAt(1).findViewById(android.R.id.title);
-      //  tv.setAllCaps(false);
-      //  tv =  (TextView) mTabHost.getTabWidget().getChildAt(2).findViewById(android.R.id.title);
-      //  tv.setAllCaps(false);
 
         return mTabHost;
     }

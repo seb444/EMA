@@ -11,13 +11,11 @@ import android.widget.TextView;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.example.seb.ema.fragmentpagerefresh.Utils;
 import com.example.seb.ema.R;
-
-
 import org.w3c.dom.Text;
-
 
 /**
  * Created by noor on 01/04/15.
@@ -25,12 +23,12 @@ import org.w3c.dom.Text;
 public class MyPagerAdapter extends PagerAdapter {
 
     private static final String TAG = "MyPagerAdapter";
-    private ArrayList<Utils.DummyItem> mDummyItems;
+    private ArrayList<Utils.TrainingPlan> mTrainingPlans;
     private Context mContext;
     private LayoutInflater mLayoutInflater;
 
-    public MyPagerAdapter(ArrayList<Utils.DummyItem> dummyItems, Context context) {
-        this.mDummyItems = dummyItems;
+    public MyPagerAdapter(ArrayList<Utils.TrainingPlan> trainingPlans, Context context) {
+        this.mTrainingPlans = trainingPlans;
         mContext = context;
         mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -39,7 +37,7 @@ public class MyPagerAdapter extends PagerAdapter {
     //Abstract method in PagerAdapter
     @Override
     public int getCount() {
-        return mDummyItems.size();
+        return mTrainingPlans.size();
     }
 
 
@@ -63,6 +61,8 @@ public class MyPagerAdapter extends PagerAdapter {
         // Inflate a new layout from our resources
         View view = mLayoutInflater.inflate(R.layout.photo_layout, container, false);
         // Retrieve a TextView from the inflated View, and update it's text
+
+        //Get All Input TextViews
         TextView enIn=view.getRootView().findViewById(R.id.mExerciseNOut);
         TextView weightIn =view.getRootView().findViewById(R.id.mWeightOut);
         TextView setsIn  =view.getRootView().findViewById(R.id.mSetsOut);
@@ -71,26 +71,24 @@ public class MyPagerAdapter extends PagerAdapter {
         TextView increaseWeightTimeIn=view.getRootView().findViewById(R.id.mIncreaseWeightTimeOut);
         TextView weightIncreaseIn=view.getRootView().findViewById(R.id.mIncreaseWeightOut);
 
-        Utils.DummyItem dummyItem = mDummyItems.get(position);
-        enIn.setText(dummyItem.getExerciseName());
+        Utils.TrainingPlan trainingPlan = mTrainingPlans.get(position);
+        enIn.setText(trainingPlan.getExerciseName());
         try{
-            weightIn.setText(Double.toString(dummyItem.getWeight()));
-            setsIn.setText(Double.toString(dummyItem.getSets()));
-            setsIn.setText(Double.toString(dummyItem.getSets()));
-            startDateIn.setText(dummyItem.getStartDate().toString());
-            endDateIn.setText(dummyItem.getEndDate().toString());
-            increaseWeightTimeIn.setText(Double.toString(dummyItem.getIncreaseWeightTime()));
-            weightIncreaseIn.setText(Double.toString(dummyItem.getWeightIncrease()));
+            weightIn.setText(Double.toString(trainingPlan.getWeight()));
+            setsIn.setText(Double.toString(trainingPlan.getSets()));
+            setsIn.setText(Double.toString(trainingPlan.getSets()));
+            startDateIn.setText(trainingPlan.getStartDate().toString());
+            endDateIn.setText(trainingPlan.getEndDate().toString());
+            increaseWeightTimeIn.setText(Double.toString(trainingPlan.getIncreaseWeightTime()));
+            weightIncreaseIn.setText(Double.toString(trainingPlan.getWeightIncrease()));
         }catch (Exception e){
-
-
+            e.printStackTrace();
         }
 
-        ImageView imageView = (ImageView) view.findViewById(R.id.image);
-
-        view.setTag(dummyItem);
+        view.setTag(trainingPlan);
         // Add the newly created View to the ViewPager
         container.addView(view);
+
         Log.i(TAG, "instantiateItem() [position: " + position + "]" + " childCount:" + container.getChildCount());
         // Return the View
         return view;
@@ -120,8 +118,8 @@ public class MyPagerAdapter extends PagerAdapter {
      */
     @Override
     public int getItemPosition(Object object) {
-        Utils.DummyItem dummyItem = (Utils.DummyItem) ((View) object).getTag();
-        int position = mDummyItems.indexOf(dummyItem);
+        Utils.TrainingPlan trainingPlan = (Utils.TrainingPlan) ((View) object).getTag();
+        int position = mTrainingPlans.indexOf(trainingPlan);
         if (position >= 0) {
             // The current data matches the data in this active fragment, so let it be as it is.
             return position;

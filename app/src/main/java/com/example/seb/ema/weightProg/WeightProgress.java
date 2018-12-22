@@ -19,6 +19,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.seb.ema.R;
+import com.example.seb.ema.fragmentpagerefresh.DataPointCompare;
+import com.jjoe64.graphview.series.DataPoint;
 import com.example.seb.ema.fragmentpagerefresh.mWeightProgress;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -41,6 +43,7 @@ import org.w3c.dom.Text;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -86,11 +89,6 @@ public class WeightProgress extends Fragment {
         mSeries1 = new LineGraphSeries<>(generateData());
         graph.addSeries(mSeries1);
         graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getActivity()));
-        graph.getGridLabelRenderer().setNumHorizontalLabels(3); // only 4 because of the space
-        graph.getViewport().setMinX(d1.getTime());
-        graph.getViewport().setMaxX(d3.getTime());
-        graph.getViewport().setXAxisBoundsManual(true);
-        graph.getGridLabelRenderer().setHumanRounding(true );
 
 
 
@@ -110,11 +108,10 @@ public class WeightProgress extends Fragment {
                 button1.setText("Some text");
                 linearLayout.addView(button1);
 */
-               /* Intent intent = new Intent(getContext(), WeightProgressInput.class);
+                Intent intent = new Intent(getContext(), WeightProgressInput.class);
                 startActivity(intent);
-                getActivity().finish();*/
-                DataPoint []dataPoint =new DataPoint[]{new DataPoint(d1,2),new DataPoint(d2,4)};
-               mSeries1.resetData(dataPoint);
+                getActivity().finish();
+
 
             }
         });
@@ -198,8 +195,13 @@ public class WeightProgress extends Fragment {
                         }
 
                     }
-                graph.getViewport().setMinX(start.getTime());
-                graph.getViewport().setMaxX(end.getTime());
+
+                Arrays.sort(dataPoint,new DataPointCompare());
+                graph.getViewport().setMinX(dataPoint[0].getX());
+                graph.getViewport().setMaxX(dataPoint[dataPoint.length-1].getX());
+                graph.getGridLabelRenderer().setNumHorizontalLabels(4); // only 4 because of the space
+                graph.getGridLabelRenderer().setHumanRounding(true);
+
                 mSeries1.resetData(dataPoint);
 
 

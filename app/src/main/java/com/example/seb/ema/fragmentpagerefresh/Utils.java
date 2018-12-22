@@ -3,9 +3,6 @@ package com.example.seb.ema.fragmentpagerefresh;
 import java.util.ArrayList;
 import java.util.Date;
 
-/**
- * Created by noor on 01/04/15.
- */
 public class Utils {
 
     public static  String EXERSICE_NAME = "ExerciseName";
@@ -15,7 +12,7 @@ public class Utils {
     public static final String EXTRA_TITLE ="title";
     public static final String EXTRA_IMAGE_URL ="exersiceName";
 
-    public static class DummyItem{
+    public static class TrainingPlan {
         private String exerciseName;
         private Double weight;
         private int id;
@@ -60,7 +57,7 @@ public class Utils {
         private String youtubeUrl;
         private static boolean first;
 
-        public DummyItem(String exerciseName, Double weight, int id, int sets, Date startDate, Date endDate, double increaseWeightTime, double weightIncrease, String youtubeUrl) {
+        public TrainingPlan(String exerciseName, Double weight, int id, int sets, Date startDate, Date endDate, double increaseWeightTime, double weightIncrease, String youtubeUrl) {
             this.exerciseName = exerciseName;
             this.weight = weight;
             this.id = id;
@@ -72,6 +69,7 @@ public class Utils {
             this.youtubeUrl = youtubeUrl;
         }
 
+        public TrainingPlan(){}
 
         public String getExerciseName() {
             return exerciseName;
@@ -86,7 +84,7 @@ public class Utils {
 
 
         public static void setFirst(boolean first) {
-            DummyItem.first = first;
+            TrainingPlan.first = first;
         }
 
         public static boolean getFirst(){
@@ -127,7 +125,7 @@ public class Utils {
                 return false;
             }
 
-            final DummyItem other = (DummyItem) obj;
+            final TrainingPlan other = (TrainingPlan) obj;
 
             if (!this.exerciseName.equals(other.exerciseName)) {
                 return false;
@@ -172,22 +170,22 @@ public class Utils {
         Utils.weights=weights;
     }
 
-//    public static ArrayList<DummyItem> getThumbImageList(){
-//        ArrayList<DummyItem> imageThumbsList = new ArrayList<>();
+//    public static ArrayList<TrainingPlan> getThumbImageList(){
+//        ArrayList<TrainingPlan> imageThumbsList = new ArrayList<>();
 //
 //        for (int i = 0; i < exerciseNames.size(); i++) {
-//            imageThumbsList.add(new DummyItem(exerciseNames.get(i), weights.get(i),i));
+//            imageThumbsList.add(new TrainingPlan(exerciseNames.get(i), weights.get(i),i));
 //        }
 //
 //        return imageThumbsList;
 //    }
 //
 //
-//    public static ArrayList<DummyItem> getFullImageList(){
-//        ArrayList<DummyItem> fullImageList = new ArrayList<>();
+//    public static ArrayList<TrainingPlan> getFullImageList(){
+//        ArrayList<TrainingPlan> fullImageList = new ArrayList<>();
 //
 //        for (int i = 0; i < weights.size(); i++) {
-//           fullImageList.add(new DummyItem(exerciseNames.get(i), weights.get(i),i));
+//           fullImageList.add(new TrainingPlan(exerciseNames.get(i), weights.get(i),i));
 //       }
 //
 //        return fullImageList;

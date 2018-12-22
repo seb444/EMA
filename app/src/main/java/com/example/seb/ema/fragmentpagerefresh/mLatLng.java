@@ -1,7 +1,9 @@
 package com.example.seb.ema.fragmentpagerefresh;
 
 public class mLatLng {
+
     private Double latitude;
+    private Double longitude;
 
     public void setLatitude(Double latitude) {
         this.latitude = latitude;
@@ -11,7 +13,7 @@ public class mLatLng {
         this.longitude = longitude;
     }
 
-    private Double longitude;
+
     public Double getLatitude() {
         return latitude;
     }
@@ -19,7 +21,6 @@ public class mLatLng {
     public Double getLongitude() {
         return longitude;
     }
-
 
     @Override
     public String toString() {
