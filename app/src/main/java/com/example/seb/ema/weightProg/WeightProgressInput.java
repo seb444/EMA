@@ -32,6 +32,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -57,14 +58,17 @@ public class WeightProgressInput extends AppCompatActivity {
         user=mAuth.getCurrentUser();
         database=FirebaseDatabase.getInstance();
         DatabaseReference mRef=database.getReference().child("weightProgress");
-        sp = getSharedPreferences("EMA", Context.MODE_PRIVATE);;
+        sp = getSharedPreferences("EMA", Context.MODE_PRIVATE);
+
      //   mToJson();
         context=this;
+
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText editText = findViewById(R.id.mEditTextWeightPIn);
+                EditText weightIn = findViewById(R.id.mEditTextWeightPIn);
+                EditText noteIn = findViewById(R.id.mEditTextNotePIn);
               //  mToJson();
                 Calendar calendar = Calendar.getInstance();
                 Date d1 = calendar.getTime();
@@ -73,7 +77,21 @@ public class WeightProgressInput extends AppCompatActivity {
                             Toast.LENGTH_LONG).show();
                     return;
                 }
-                mWeightProgressList.add(new mWeightProgress(24.0,date,"test"));
+                try{
+                    double weight= Double.parseDouble(weightIn.getText().toString());
+
+                    if(weight>500){
+                        Toast.makeText(WeightProgressInput.this, "Unzulässiges gewicht",
+                                Toast.LENGTH_LONG).show();
+
+                        return;
+                    }
+                    mWeightProgressList.add(new mWeightProgress(weight,date,noteIn.getText().toString()));
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
+
 
               //  mRef.child(user.getUid()).removeValue();
                 mRef.child(user.getUid()).setValue(mWeightProgressList);
@@ -86,7 +104,6 @@ public class WeightProgressInput extends AppCompatActivity {
 
                 edit.putString("liste",string);
                 edit.apply();
-           //     mToJson();
                 Log.v("454", string);
             }
         });
@@ -108,7 +125,7 @@ public class WeightProgressInput extends AppCompatActivity {
                             public void onDateSet(DatePicker view, int year,
                                                   int monthOfYear, int dayOfMonth) {
 
-                                button1.setText(dayOfMonth + "" + (monthOfYear + 1) + "." + year);
+                                button1.setText(dayOfMonth + "." + (monthOfYear + 1) + "." + year);
                                 date=dayOfMonth + "-" + (monthOfYear + 1) + "-" + year;
                             }
                         }, mYear, mMonth, mDay);

@@ -1,20 +1,14 @@
 package com.example.seb.ema.fragmentpagerefresh;
-
-import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.widget.DatePicker;
-
 import com.example.seb.ema.Main2Activity;
 import com.example.seb.ema.R;
 import com.example.seb.ema.framents.FragmentMain;
 
 
 public class MainActivityFragment extends FragmentActivity {
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,15 +20,6 @@ public class MainActivityFragment extends FragmentActivity {
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().add(R.id.container, new FragmentMain()).commit();
         }
-
-
-
-        //android.app.ActionBar actionBar = getActionBar();
-        //actionBar.show();
-
-
-        //Navigation Modes have been depricated.
-        //actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
     }
 
     @Override
