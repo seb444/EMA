@@ -16,6 +16,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class SingUp extends AppCompatActivity {
     private static final String TAG = "SignUp";
@@ -25,7 +27,8 @@ public class SingUp extends AppCompatActivity {
     EditText editText;
     EditText editTextPassword;
     private FirebaseAuth mAuth;
-
+    private FirebaseDatabase database;
+    private DatabaseReference myRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +36,9 @@ public class SingUp extends AppCompatActivity {
         setContentView(R.layout.activity_sing_up);
 
         mAuth = FirebaseAuth.getInstance();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
+
+
+        database=FirebaseDatabase.getInstance();
 
         editText=findViewById(R.id.editText_email);
         editTextPassword=findViewById(R.id.editText_password);
@@ -42,6 +47,7 @@ public class SingUp extends AppCompatActivity {
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 createNewUser();
             }
         });
@@ -60,7 +66,13 @@ public class SingUp extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            // updateUI(user);
+
+                            EditText editText1= findViewById(R.id.editText_Username);
+                            String username=editText1.getText().toString();
+                            myRef=database.getReference();
+                           myRef= myRef.child("users/"+user.getUid());
+                           myRef.setValue(username);
+
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
@@ -75,7 +87,6 @@ public class SingUp extends AppCompatActivity {
                             // updateUI(null);
                         }
 
-                        // ...
                     }
                 });
 

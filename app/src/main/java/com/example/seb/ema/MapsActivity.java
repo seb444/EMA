@@ -66,6 +66,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
      static int test=0;
     ValueEventListener listener;
     static String key;
+    static  String username;
     Job myJob;
 
      List<stringMLatLng>lngs = new ArrayList<>();
@@ -74,10 +75,25 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         Toast.makeText(this, "Map is Ready", Toast.LENGTH_SHORT).show();
         Log.d(TAG, "onMapReady: map is ready");
         mMap = googleMap;
+
         mAuth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance();
-        mRef = database.getReference();
-        user=mAuth.getCurrentUser();
+              database = FirebaseDatabase.getInstance();
+               mRef = database.getReference();
+        	        user=mAuth.getCurrentUser();
+
+        mRef.child("users/"+user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Log.d("ppl",dataSnapshot.getValue(String.class));
+
+                username=dataSnapshot.getValue(String.class);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
         final Handler handler = new Handler(Looper.getMainLooper());
         Runnable runnable = null;
@@ -165,11 +181,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         }
 
+
+
+
+
         key= mRef.child("positions").push().getKey();
-
-
-
-
 
 
     }
@@ -185,13 +201,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Boolean mLocationPermissionsGranted = false;
     private GoogleMap mMap;
     private FusedLocationProviderClient mFusedLocationProviderClient;
-
+     String username1;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-
-
 
         getLocationPermission();
     }
@@ -224,7 +238,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                             Map<String, mLatLng> user_info = new HashMap<String, mLatLng>();
 
-                            myRef=mRef.child("positions/"+key);
+                            myRef=mRef.child("positions/"+username);
                             FirebaseUser user =mAuth.getCurrentUser();
                             mLatLng lng= new mLatLng();
                             try{
@@ -251,7 +265,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
 
-
+                            Log.v("Threaisalive", stringMLatLng.toString());
                                Log.v("Threaisalive", "nice");
 
 
