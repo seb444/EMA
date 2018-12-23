@@ -1,8 +1,8 @@
 package com.example.seb.ema.fragmentpagerefresh;
 
 public class stringMLatLng {
-    private String uid;
-    private mLatLng mLatLng;
+    String uid;
+    mLatLng mLatLng;
 
     public stringMLatLng(){}
 
@@ -16,6 +16,10 @@ public class stringMLatLng {
 
     public void setmLatLng(com.example.seb.ema.fragmentpagerefresh.mLatLng mLatLng) {
         this.mLatLng = mLatLng;
+    }
+
+    public String getUid() {
+        return uid;
     }
 
     @Override

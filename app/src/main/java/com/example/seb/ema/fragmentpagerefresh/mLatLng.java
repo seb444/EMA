@@ -2,8 +2,8 @@ package com.example.seb.ema.fragmentpagerefresh;
 
 public class mLatLng {
 
-    private Double latitude;
-    private Double longitude;
+     Double latitude;
+     Double longitude;
 
     public void setLatitude(Double latitude) {
         this.latitude = latitude;

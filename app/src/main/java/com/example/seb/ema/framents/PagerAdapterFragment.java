@@ -241,43 +241,6 @@ public class PagerAdapterFragment extends Fragment implements View.OnClickListen
                 }
         }
 
-    public void hideInput(View v) {
-        TextView textView = v.getRootView().findViewById(R.id.mWeightIn);
-        TextView textView1 = v.getRootView().findViewById(R.id.mExerciseNIn);
-        textView.setVisibility(View.INVISIBLE);
-        textView1.setVisibility(View.INVISIBLE);
-    }
-
-    public void showInput(View v) {
-        TextView textView = v.getRootView().findViewById(R.id.mWeightIn);
-        TextView textView1 = v.getRootView().findViewById(R.id.mExerciseNIn);
-        textView.setVisibility(View.VISIBLE);
-        textView1.setVisibility(View.VISIBLE);
-    }
-
-    public void hideOutput(View v) {
-        try {
-            TextView textView = v.findViewById(R.id.mWeightOut);
-            //  TextView textView1= v.getRootView().findViewById(R.id.title);
-            textView.setVisibility(View.INVISIBLE);
-            //   textView1.setVisibility(View.INVISIBLE);
-        } catch (Exception e) {
-        }
-
-
-    }
-
-    public void showOutput(View v) {
-        try {
-            TextView textView = v.getRootView().findViewById(R.id.mWeightOut);
-            TextView textView1 = v.getRootView().findViewById(R.id.title);
-            textView.setVisibility(View.VISIBLE);
-            textView1.setVisibility(View.VISIBLE);
-        } catch (Exception e) {
-
-        }
-    }
-
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
 
