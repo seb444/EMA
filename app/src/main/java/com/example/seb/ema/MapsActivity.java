@@ -237,7 +237,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
                             Map<String, mLatLng> user_info = new HashMap<String, mLatLng>();
-
+                            if(username==null) return;
                             myRef=mRef.child("positions/"+username);
                             FirebaseUser user =mAuth.getCurrentUser();
                             mLatLng lng= new mLatLng();
