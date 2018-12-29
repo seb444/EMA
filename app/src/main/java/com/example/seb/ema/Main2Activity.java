@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.seb.ema.group.Group;
 import com.example.seb.ema.weightProg.Main3Activity;
 import com.example.seb.ema.fragmentpagerefresh.MainActivityFragment;
 import com.google.android.gms.common.ConnectionResult;
@@ -178,7 +179,9 @@ public class Main2Activity extends AppCompatActivity
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
-
+            Intent intent = new Intent(getApplicationContext(), Group.class);
+            startActivity(intent);
+            finish();
         } else if (id == R.id.nav_send) {
 
         }
