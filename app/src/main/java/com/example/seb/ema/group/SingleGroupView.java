@@ -48,6 +48,7 @@ public class SingleGroupView extends AppCompatActivity {
         mRef=database.getReference();
         myRef=database.getReference();
         user=auth.getCurrentUser();
+
         linearLayout = findViewById(R.id.mLinearLayoutSingleGroup);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
 
@@ -120,6 +121,7 @@ public class SingleGroupView extends AppCompatActivity {
         });
 
         Log.d("1003", string);
+
         mRef.child("userReady").child(string).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -129,9 +131,9 @@ public class SingleGroupView extends AppCompatActivity {
                 if(map==null){Log.d("1002", "FEHLER");
 //                    Log.d("1001", dataSnapshot.getValue().toString());
                             return;}
-                int i=0;
+                int i=1;
                 int count=0;
-                List<Button> buttons= new ArrayList<>();
+                if(linearLayout.getChildCount()==0) return;
                 for(Map.Entry<String, String> entry : map.entrySet()) {
                     String key = entry.getKey();
                     String value = entry.getValue();
@@ -144,22 +146,29 @@ public class SingleGroupView extends AppCompatActivity {
                     if(value.equals("true")) {
                         View btn = linearLayout.getChildAt(i);
 
-                        btn.setBackgroundColor(Color.GREEN);
+                        if(btn!=null){
+                            btn.setBackgroundColor(Color.GREEN);
+                        }
+
+
 
                         count++;
                     }
 
                     if(value.equals("false")) {
                         View btn = linearLayout.getChildAt(i);
+                        if(btn!=null){
+                            btn.setBackgroundColor(Color.RED);
+                        }
 
-                        btn.setBackgroundColor(Color.RED);
                     }
                     i++;
                     button1.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            if(!key.equals(username)) return;
-                             mRef.child("userReady").child(string).child(button1.getText().toString()).setValue("true");
+                            Log.d("10088", "fff "+button1.getText().toString().toLowerCase());
+
+                            if(!(button1.getText().toString().toLowerCase().equals(username))) return;
 
                             for (int i = 0; i < linearLayout.getChildCount(); i++) {
                                 View btn = linearLayout.getChildAt(i);
@@ -169,6 +178,10 @@ public class SingleGroupView extends AppCompatActivity {
                                     }
                                 }
                             }
+
+                            mRef.child("userReady").child(string).child(button1.getText().toString()).setValue("true");
+
+                            Log.d("998", "richtig "+button1.getText().toString().toLowerCase());
                         }
                     });
                 }
@@ -179,8 +192,6 @@ public class SingleGroupView extends AppCompatActivity {
                             mRef.child("userReady").child(string).child(((Button) btn).getText().toString()).setValue("false");
                         }
                     }
-
-
                     Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
                     startActivity(intent);
                     finish();
@@ -197,6 +208,9 @@ public class SingleGroupView extends AppCompatActivity {
 
     }
 
+    private void getUsername(){
+
+    }
 
     @Override
     public void onBackPressed() {

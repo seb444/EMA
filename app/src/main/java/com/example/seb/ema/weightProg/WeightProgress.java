@@ -1,7 +1,9 @@
 package com.example.seb.ema.weightProg;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -49,6 +51,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Random;
 
 
@@ -69,6 +72,8 @@ public class WeightProgress extends Fragment {
     LinearLayout linearLayout;
     View mRootview;
     GraphView graph;
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -93,7 +98,7 @@ public class WeightProgress extends Fragment {
 
 
         Button button = rootView.findViewById((R.id.myBtnWeightProgress));
-
+        Button buttonWl= rootView.findViewById(R.id.mButtonRemoveWeightList);
         scrollView = (ScrollView) rootView.findViewById(R.id.mScrollView);
         linearLayout = rootView.findViewById(R.id.mLinearLayout);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
@@ -116,6 +121,19 @@ public class WeightProgress extends Fragment {
             }
         });
 
+        buttonWl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                        database.getReference().child("weightProgress/"+user.getUid()).removeValue();
+                        linearLayout.removeAllViews();
+
+                        DatabaseReference mRef=database.getReference().child("weightProgress");
+                        SharedPreferences sp = Objects.requireNonNull(getContext()).getSharedPreferences("EMA", Context.MODE_PRIVATE);
+
+                        sp.edit().remove("liste").apply();
+
+            }
+        });
 
 
 
@@ -170,8 +188,10 @@ public class WeightProgress extends Fragment {
                 List<DataPoint> dataPoints = new ArrayList<>();
 
                     for (mWeightProgress m:mWeightProgressList) {
+                        if(m==null) return;
                         Button button1 = new Button(mRootview.getContext());
                         button1.setText(String.format("%.2f", m.getWeight())+"\t"+m.getNote());
+
 
                         linearLayout.addView(button1);
 

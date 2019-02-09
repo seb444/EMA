@@ -140,11 +140,11 @@ public class Main2Activity extends AppCompatActivity
         // Handle navigation view item clicks here.
         mPager =  findViewById(R.id.pager);
         int id = item.getItemId();
-        if (id != R.id.trainingPlan){
+        if (id != R.id.nav_TrainingPlan){
             mPager.setAdapter(null);
         }
 
-        if (id == R.id.trainingPlan) {
+        if (id == R.id.nav_TrainingPlan) {
          //   setTitle("train");
           //  FragmentTP fragmentTP =new FragmentTP();
           //  FragmentManager fragmentManager= getSupportFragmentManager();
@@ -163,7 +163,7 @@ public class Main2Activity extends AppCompatActivity
 
 
 
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_Map) {
             if(isServicesOK()){
                 Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
                 startActivity(intent);
@@ -172,13 +172,13 @@ public class Main2Activity extends AppCompatActivity
 
 
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_weightProgress) {
             Intent intent = new Intent(getApplicationContext(), Main3Activity.class);
             startActivity(intent);
             finish();
         } else if (id == R.id.nav_manage) {
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_groups) {
             Intent intent = new Intent(getApplicationContext(), Group.class);
             startActivity(intent);
             finish();

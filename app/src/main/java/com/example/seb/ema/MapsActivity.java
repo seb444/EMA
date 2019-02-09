@@ -376,6 +376,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onResume() {
         super.onResume();
 
+       getDeviceLocation();
         mTimer2 = new Runnable() {
             @Override
             public void run() {
