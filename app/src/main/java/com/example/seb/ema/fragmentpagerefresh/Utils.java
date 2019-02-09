@@ -17,8 +17,8 @@ public class Utils {
         private Double weight;
         private int id;
         private int sets;
-        private Date startDate;
-        private Date endDate;
+        private String startDate;
+        private String endDate;
         private double increaseWeightTime;
         private double weightIncrease;
 
@@ -30,11 +30,11 @@ public class Utils {
             return sets;
         }
 
-        public Date getStartDate() {
+        public String getStartDate() {
             return startDate;
         }
 
-        public Date getEndDate() {
+        public String getEndDate() {
             return endDate;
         }
 
@@ -57,7 +57,7 @@ public class Utils {
         private String youtubeUrl;
         private static boolean first;
 
-        public TrainingPlan(String exerciseName, Double weight, int id, int sets, Date startDate, Date endDate, double increaseWeightTime, double weightIncrease, String youtubeUrl) {
+        public TrainingPlan(String exerciseName, Double weight, int id, int sets, String startDate, String endDate, double increaseWeightTime, double weightIncrease, String youtubeUrl) {
             this.exerciseName = exerciseName;
             this.weight = weight;
             this.id = id;
@@ -95,13 +95,7 @@ public class Utils {
             this.sets = sets;
         }
 
-        public void setStartDate(Date startDate) {
-            this.startDate = startDate;
-        }
 
-        public void setEndDate(Date endDate) {
-            this.endDate = endDate;
-        }
 
         public void setIncreaseWeightTime(double increaseWeightTime) {
             this.increaseWeightTime = increaseWeightTime;

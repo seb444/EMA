@@ -32,6 +32,7 @@ import com.example.seb.ema.adapters.MyPagerAdapter;
 import com.example.seb.ema.fragmentpagerefresh.Utils;
 import com.example.seb.ema.R;
 import com.example.seb.ema.fragmentpagerefresh.mWeightProgress;
+import com.example.seb.ema.weightProg.WeightProgressInput;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -74,6 +75,7 @@ public class PagerAdapterFragment extends Fragment implements View.OnClickListen
     DatabaseReference myRef;
     FirebaseUser user;
     Button btnDatePicker, btnTimePicker;
+    FloatingActionButton btnDeleteAllTps;
 
 
     /* Avoid non-default constructors in fragments: use a default constructor plus Fragment.setArguments(Bundle) instead and use Type value = getArguments().getType("key") to retrieve back the values in the bundle in onCreateView()*/
@@ -87,13 +89,15 @@ public class PagerAdapterFragment extends Fragment implements View.OnClickListen
         FloatingActionButton buttonThumb = rootView.findViewById(R.id.mButtonShowIn);
         btnDatePicker = rootView.findViewById(R.id.mStartDateIn);
         btnTimePicker = rootView.findViewById(R.id.mEndDateIn);
-
-        buttonThumb.setOnClickListener(this);
+        btnDeleteAllTps=rootView.findViewById(R.id.mButtonDeleteAllTP);
 
         context = getContext();
 
 
 
+
+        btnDeleteAllTps.setOnClickListener(this);
+        buttonThumb.setOnClickListener(this);
 
         btnDatePicker.setOnClickListener(this);
         btnTimePicker.setOnClickListener(this);
@@ -179,7 +183,7 @@ public class PagerAdapterFragment extends Fragment implements View.OnClickListen
                 mDay = c.get(Calendar.DAY_OF_MONTH);
 
                 DatePickerDialog datePickerDialog = new DatePickerDialog(context,
-                        (view, year, monthOfYear, dayOfMonth) -> btnDatePicker.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year), mYear, mMonth, mDay);
+                        (view, year, monthOfYear, dayOfMonth) -> btnDatePicker.setText(dayOfMonth + "." + (monthOfYear + 1) + "." + year), mYear, mMonth, mDay);
                 datePickerDialog.show();
 
                 break;
@@ -193,11 +197,13 @@ public class PagerAdapterFragment extends Fragment implements View.OnClickListen
                 mDay = c2.get(Calendar.DAY_OF_MONTH);
 
                 DatePickerDialog datePickerDialog2 = new DatePickerDialog(context,
-                        (view, year, monthOfYear, dayOfMonth) -> btnDatePicker.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year), mYear, mMonth, mDay);
+                        (view, year, monthOfYear, dayOfMonth) -> btnTimePicker.setText(dayOfMonth + "." + (monthOfYear + 1) + "." + year), mYear, mMonth, mDay);
                 datePickerDialog2.show();
 
                 break;
-
+            case R.id.mButtonDeleteAllTP:
+                myRef.removeValue();
+                break;
             case R.id.mButtonShowIn:
 
 
@@ -215,19 +221,22 @@ public class PagerAdapterFragment extends Fragment implements View.OnClickListen
 
                     String startI = startDateIn.getText().toString();
                     String endI = endDateIn.getText().toString();
-                        startIn = c.getTime();
-                        endIn = c2.getTime();
-                    dummyItems2.clear();
-                    dummyItems2.add(new Utils.TrainingPlan(enIn.getText().toString(), Double.parseDouble(weightIn.getText().toString()), i++, Integer.parseInt(setsIn.getText().toString()), startIn, endIn, Double.parseDouble(increaseWeightTimeIn.getText().toString()), Double.parseDouble(weightIncreaseIn.getText().toString()), "s"));//textView.getText().toString()
-                    images.add(enIn.getText().toString() + 1);
+                    if(startI.equals("Pick a date")|| endI.equals("Pick a date")){
+                        Toast.makeText(context, "Datum eingeben",
+                                Toast.LENGTH_LONG).show();
+                    }
+                    try {
+                        dummyItems2.clear();
+                        dummyItems2.add(new Utils.TrainingPlan(enIn.getText().toString(), Double.parseDouble(weightIn.getText().toString()), i++, Integer.parseInt(setsIn.getText().toString()), startI, endI, Double.parseDouble(increaseWeightTimeIn.getText().toString()), Double.parseDouble(weightIncreaseIn.getText().toString()), "s"));//textView.getText().toString()
+                        images.add(enIn.getText().toString() + 1);
 
 
-                    // Utils.setExerciseNames(images);
-
-
-                    trainingPlans.addAll(dummyItems2);
-                    mPagerAdapter.notifyDataSetChanged();
-
+                        trainingPlans.addAll(dummyItems2);
+                        mPagerAdapter.notifyDataSetChanged();
+                    }catch(Exception ex){
+                        Toast.makeText(getActivity(), "Alle Felder korrekt ausfüllen",
+                                Toast.LENGTH_LONG).show();
+                    }
                     Toast.makeText(this.getActivity(), enIn.getText().toString(),
                             Toast.LENGTH_SHORT).show();
 
@@ -238,7 +247,16 @@ public class PagerAdapterFragment extends Fragment implements View.OnClickListen
 
                     myRef.setValue(trainingPlans);
 
+                    enIn.setText("");
+                    weightIn.setText("");
+                    setsIn.setText("");
+                    startDateIn.setText("Pick a date");
+                    endDateIn.setText("Pick a date");
+                    increaseWeightTimeIn.setText("");
+                    weightIncreaseIn.setText("");
+
                 }
+
         }
 
     @Override

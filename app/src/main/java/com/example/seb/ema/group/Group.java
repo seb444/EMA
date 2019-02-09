@@ -49,7 +49,7 @@ public class Group extends AppCompatActivity {
         myRef=database.getReference();
         user=auth.getCurrentUser();
         Button button= findViewById(R.id.mButtonGroupIn);
-        Button buttonLeave= findViewById(R.id.mButtonGroupLeave);
+
 
 
 
@@ -111,6 +111,31 @@ public class Group extends AppCompatActivity {
 
 
 
+
+
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText editText=findViewById(R.id.mEditTextGroupIn);
+                String string=editText.getText().toString();
+
+                Log.d("string",string+ username);
+
+
+                mRef.child("groups").child(string).child(user.getUid()).setValue(username);
+
+                mRef.child("userGroups").child(user.getUid()).child(string).setValue("false");
+
+            }
+        });
+
+
+    }
+
+
+    @Override
+    protected void onResume() {
         myRef.child("users/"+user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -125,24 +150,6 @@ public class Group extends AppCompatActivity {
             }
         });
 
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                EditText editText=findViewById(R.id.mEditTextGroupIn);
-                String string=editText.getText().toString();
-
-                Log.d("string",string);
-
-
-                mRef.child("groups").child(string).child(user.getUid()).setValue(username);
-
-                mRef.child("userGroups").child(user.getUid()).child(string).setValue("false");
-
-            }
-        });
-
-
+        super.onResume();
     }
 }

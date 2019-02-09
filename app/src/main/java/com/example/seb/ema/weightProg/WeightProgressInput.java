@@ -57,10 +57,11 @@ public class WeightProgressInput extends AppCompatActivity {
         mAuth=FirebaseAuth.getInstance();
         user=mAuth.getCurrentUser();
         database=FirebaseDatabase.getInstance();
+
         DatabaseReference mRef=database.getReference().child("weightProgress");
         sp = getSharedPreferences("EMA", Context.MODE_PRIVATE);
 
-     //   mToJson();
+     //   mToJsunon();
         context=this;
 
 

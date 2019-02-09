@@ -17,15 +17,32 @@
 
     <Button
         android:id="@+id/myBtnWeightProgress"
-        android:layout_width="120dp"
-        android:layout_height="35dp"
-        android:text="Button"
+        android:layout_width="119dp"
+        android:layout_height="46dp"
+        android:layout_marginBottom="6dp"
+        android:background="@color/colorPrimary"
+        android:text="Add weight"
+        android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/graph"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.013" />
+
+    <Button
+        android:id="@+id/mButtonRemoveWeightList"
+        android:layout_width="119dp"
+        android:layout_height="46dp"
+        android:background="@color/red"
+        android:text="Remove all"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/graph"
+        app:layout_constraintVertical_bias="0.013" />
 
     <ScrollView
         android:id="@+id/mScrollView"
@@ -43,17 +60,5 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" />
     </ScrollView>
-
-    <TextView
-        android:id="@+id/Mtest"
-        android:layout_width="168dp"
-        android:layout_height="17dp"
-        android:layout_marginStart="8dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/mScrollView"
-        app:layout_constraintEnd_toStartOf="@+id/myBtnWeightProgress"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/graph" />
 
 </android.support.constraint.ConstraintLayout>

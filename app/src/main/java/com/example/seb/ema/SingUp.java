@@ -56,8 +56,6 @@ public class SingUp extends AppCompatActivity {
     public void createNewUser(){
         email=editText.getText().toString();
         password=editTextPassword.getText().toString();
-        TextView textView= findViewById(R.id.textView);
-        textView.setText(email+"\n"+password);
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
