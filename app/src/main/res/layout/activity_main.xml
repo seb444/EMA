@@ -8,8 +8,9 @@
 
     <Button
         android:id="@+id/buttonSignUp"
-        android:layout_width="106dp"
-        android:layout_height="58dp"
+        android:background="@drawable/buttonshape"
+        android:layout_width="120dp"
+        android:layout_height="60dp"
         android:layout_marginTop="128dp"
         android:text="Sign Up"
         android:visibility="visible"
@@ -19,8 +20,9 @@
 
     <Button
         android:id="@+id/button_sign_in"
-        android:layout_width="106dp"
-        android:layout_height="58dp"
+        android:background="@drawable/buttonshape"
+        android:layout_width="120dp"
+        android:layout_height="60dp"
         android:layout_marginTop="36dp"
         android:text="Sign in"
         android:visibility="visible"
@@ -37,8 +39,8 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:ems="10"
+        android:hint="Email"
         android:inputType="textEmailAddress"
-        android:text="geilertyp@web.de"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -55,8 +57,8 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:ems="10"
+        android:hint="Password"
         android:inputType="textPassword"
-        android:text="seb>ALLES"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

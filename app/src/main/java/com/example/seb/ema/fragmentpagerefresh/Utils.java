@@ -6,9 +6,7 @@ import java.util.Date;
 public class Utils {
 
     public static  String EXERSICE_NAME = "ExerciseName";
-    public static  String TAB_PAGER_ADAPTER="PagerAdapter";
-    public static final String TAB_FRAGMENT_PAGER_ADAPTER="FragmentPagerAdapter";
-    public static final String TAB_FRAGMENT_STATE_PAGER_ADAPTER="FragmentStatePagerAdapter";
+    public static  String TAB_PAGER_ADAPTER="Trainingsplan";
     public static final String EXTRA_TITLE ="title";
     public static final String EXTRA_IMAGE_URL ="exersiceName";
 

@@ -3,6 +3,7 @@ package com.example.seb.ema.group;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,7 +12,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.Toast;
 
+import com.example.seb.ema.Main2Activity;
 import com.example.seb.ema.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -76,7 +79,11 @@ public class Group extends AppCompatActivity {
                 test.setText(dataSnapshot.getValue(String.class));
                 linearLayout.addView(button1);*/
                 linearLayout.removeAllViews();
-                map  = (Map) dataSnapshot.getValue();
+                try {
+                    map = (Map) dataSnapshot.getValue();
+                }catch (Exception e){
+                    return;
+                }
                 if(map==null){
                     Log.d("1000", "FEHLER");
                     return;
@@ -87,7 +94,7 @@ public class Group extends AppCompatActivity {
 
                     Button button1 = new Button(context);
                     button1.setText(String.format(key));
-
+                    button1.setBackground(ContextCompat.getDrawable(context,R.drawable.buttonshape));
                     button1.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -120,6 +127,12 @@ public class Group extends AppCompatActivity {
                 EditText editText=findViewById(R.id.mEditTextGroupIn);
                 String string=editText.getText().toString();
 
+                if(string.isEmpty()){
+                    Toast.makeText(Group.this, "Groupname missing",
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 Log.d("string",string+ username);
 
 
@@ -151,5 +164,14 @@ public class Group extends AppCompatActivity {
         });
 
         super.onResume();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(getApplicationContext(), Main2Activity.class);
+        startActivity(intent);
+        finish();
+
+        super.onBackPressed();
     }
 }

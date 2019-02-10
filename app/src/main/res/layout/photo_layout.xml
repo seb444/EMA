@@ -19,91 +19,107 @@
             android:layout_height="65dp"
             android:layout_alignParentLeft="true"
             android:textAlignment="center"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toTopOf="@+id/mWeightOut"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
 
         <TextView
             android:id="@+id/mWeightOut"
             android:layout_width="0dp"
-            android:layout_height="65dp"
+            android:layout_height="100dp"
             android:layout_marginBottom="8dp"
             android:hint="weight"
+            android:textAlignment="center"
+            android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@+id/mSetsOut"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.148" />
+            app:layout_constraintVertical_bias="0.503" />
 
         <TextView
             android:id="@+id/mSetsOut"
             android:layout_width="0dp"
-            android:layout_height="65dp"
+            android:layout_height="100dp"
             android:layout_marginBottom="8dp"
             android:hint="sets"
+            android:textAlignment="center"
+            android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintLeft_toRightOf="@+id/mWeightOut"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.148" />
+            app:layout_constraintVertical_bias="0.503" />
 
 
         <TextView
             android:id="@+id/mStartDateOut"
             android:layout_width="0dp"
-            android:layout_height="65dp"
+            android:layout_height="100dp"
             android:layout_marginBottom="8dp"
             android:hint="start date"
+            android:textAlignment="center"
+            android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@+id/mEndDateOut"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.296" />
+            app:layout_constraintVertical_bias="0.751" />
 
         <TextView
             android:id="@+id/mEndDateOut"
             android:layout_width="0dp"
-            android:layout_height="65dp"
+            android:layout_height="100dp"
             android:layout_marginBottom="8dp"
             android:hint="end date"
+            android:textAlignment="center"
+            android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintLeft_toRightOf="@+id/mStartDateOut"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.296" />
+            app:layout_constraintVertical_bias="0.751" />
 
         <TextView
             android:id="@+id/mIncreaseWeightTimeOut"
             android:layout_width="0dp"
-            android:layout_height="65dp"
+            android:layout_height="100dp"
             android:layout_marginBottom="8dp"
             android:hint="+ weight time"
+            android:textAlignment="center"
+            android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@+id/mIncreaseWeightOut"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.445" />
+            app:layout_constraintVertical_bias="1.0" />
 
         <TextView
             android:id="@+id/mIncreaseWeightOut"
             android:layout_width="0dp"
-            android:layout_height="65dp"
+            android:layout_height="100dp"
             android:layout_marginBottom="8dp"
             android:hint="+ weight"
+            android:textAlignment="center"
+            android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintLeft_toRightOf="@+id/mIncreaseWeightTimeOut"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.445" />
+            app:layout_constraintVertical_bias="1.0" />
 
 
     </android.support.constraint.ConstraintLayout>

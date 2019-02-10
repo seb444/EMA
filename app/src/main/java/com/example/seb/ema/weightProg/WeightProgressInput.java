@@ -18,6 +18,7 @@ import com.example.seb.ema.Main2Activity;
 import com.example.seb.ema.MainActivity;
 import com.example.seb.ema.R;
 import com.example.seb.ema.fragmentpagerefresh.mWeightProgress;
+import com.example.seb.ema.group.Group;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.firebase.auth.FirebaseAuth;
@@ -78,6 +79,11 @@ public class WeightProgressInput extends AppCompatActivity {
                             Toast.LENGTH_LONG).show();
                     return;
                 }
+                if(mWeightProgressList.stream().anyMatch(a -> a.getDate().equals(date))){
+                    Toast.makeText(WeightProgressInput.this, "An diesem Datum existiert bereits ein Eintrag",
+                            Toast.LENGTH_LONG).show();
+                    return;
+                }
                 try{
                     double weight= Double.parseDouble(weightIn.getText().toString());
 
@@ -106,6 +112,10 @@ public class WeightProgressInput extends AppCompatActivity {
                 edit.putString("liste",string);
                 edit.apply();
                 Log.v("454", string);
+
+                Intent intent = new Intent(getApplicationContext(), Main3Activity.class);
+                startActivity(intent);
+                finish();
             }
         });
 
@@ -128,6 +138,7 @@ public class WeightProgressInput extends AppCompatActivity {
 
                                 button1.setText(dayOfMonth + "." + (monthOfYear + 1) + "." + year);
                                 date=dayOfMonth + "-" + (monthOfYear + 1) + "-" + year;
+
                             }
                         }, mYear, mMonth, mDay);
                 datePickerDialog.show();

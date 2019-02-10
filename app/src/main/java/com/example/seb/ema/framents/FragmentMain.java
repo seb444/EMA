@@ -33,20 +33,16 @@ public class FragmentMain extends Fragment implements FragmentTabHost.OnTabChang
         mTabHost = rootView.findViewById(R.id.tabhost);
         mTabHost.setup(getActivity(), getChildFragmentManager(), android.R.id.tabcontent);
         Bundle bundle = new Bundle();
-        bundle.putString(Utils.EXTRA_TITLE, Utils.TAB_PAGER_ADAPTER);
+      //  bundle.putString(Utils.EXTRA_TITLE, Utils.TAB_PAGER_ADAPTER);
 
         //The third parameter is a Bundle object, that will be received inside the fragment.
         mTabHost.addTab(mTabHost.newTabSpec(Utils.TAB_PAGER_ADAPTER).setIndicator(Utils.TAB_PAGER_ADAPTER), PagerAdapterFragment.class, bundle);
-        bundle = new Bundle();
-        bundle.putString(Utils.EXTRA_TITLE, Utils.TAB_FRAGMENT_PAGER_ADAPTER);
-      //  mTabHost.addTab(mTabHost.newTabSpec(Utils.TAB_FRAGMENT_PAGER_ADAPTER).setIndicator(Utils.TAB_FRAGMENT_PAGER_ADAPTER), FragmentPagerAdapterFragment.class, bundle);
-        bundle = new Bundle();
-        bundle.putString(Utils.EXTRA_TITLE, Utils.TAB_FRAGMENT_STATE_PAGER_ADAPTER);
+
         //mTabHost.addTab(mTabHost.newTabSpec(Utils.TAB_FRAGMENT_STATE_PAGER_ADAPTER).setIndicator(Utils.TAB_FRAGMENT_STATE_PAGER_ADAPTER), FragmentStatePagerAdapterFragment.class, bundle);
-        mTabHost.setOnTabChangedListener(this);
+      //  mTabHost.setOnTabChangedListener(this);
 
         //By Default the title TextView of Tab shows all caps characters, we are making it setAllCaps(false).
-        TextView tv =  (TextView) mTabHost.getTabWidget().getChildAt(0).findViewById(android.R.id.title);
+        TextView tv =   mTabHost.getTabWidget().getChildAt(0).findViewById(android.R.id.title);
         tv.setAllCaps(false);
 
         return mTabHost;
@@ -63,10 +59,10 @@ public class FragmentMain extends Fragment implements FragmentTabHost.OnTabChang
     public void onTabChanged(String tabId) {
         Log.i(TAG, "onTabChanged*** tabId:"+tabId);
         switch (tabId){
-            case Utils.TAB_FRAGMENT_PAGER_ADAPTER:
-                break;
-            case Utils.TAB_FRAGMENT_STATE_PAGER_ADAPTER:
-                break;
+//            case Utils.TAB_FRAGMENT_PAGER_ADAPTER:
+//                break;
+//            case Utils.TAB_FRAGMENT_STATE_PAGER_ADAPTER:
+//                break;
         }
     }
 
