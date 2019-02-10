@@ -19,6 +19,7 @@
             android:id="@+id/mLinearLayoutSingleGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:divider="@drawable/empty_tall_divider"
             android:orientation="vertical" />
     </ScrollView>
 
@@ -26,7 +27,7 @@
         android:id="@+id/mButtonSingleGroupLeave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/red"
+        android:background="@drawable/buttonshapered"
         android:text="Leave group"
         android:textAllCaps="false"
         app:layout_constraintBottom_toTopOf="@+id/mScrollViewSingleGroup"

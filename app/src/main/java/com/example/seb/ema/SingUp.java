@@ -1,5 +1,6 @@
 package com.example.seb.ema;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.seb.ema.group.Group;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -54,8 +56,28 @@ public class SingUp extends AppCompatActivity {
     }
 
     public void createNewUser(){
+        EditText editText1= findViewById(R.id.editText_Username);
         email=editText.getText().toString();
         password=editTextPassword.getText().toString();
+        String username=editText1.getText().toString();
+
+        if(password.isEmpty()){
+            Toast.makeText(this, "Passwort eingeben",
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(email.isEmpty()){
+            Toast.makeText(this, "Email eingeben",
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(username.isEmpty()){
+            Toast.makeText(this, "Usernamen eingeben",
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -65,11 +87,15 @@ public class SingUp extends AppCompatActivity {
                             Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
 
-                            EditText editText1= findViewById(R.id.editText_Username);
-                            String username=editText1.getText().toString();
+
+
                             myRef=database.getReference();
                            myRef= myRef.child("users/"+user.getUid());
                            myRef.setValue(username);
+
+                            Intent intent = new Intent(getApplicationContext(), Main2Activity.class);
+                            startActivity(intent);
+                            finish();
 
                         } else {
                             // If sign in fails, display a message to the user.

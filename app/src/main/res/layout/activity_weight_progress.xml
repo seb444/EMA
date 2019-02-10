@@ -20,7 +20,7 @@
         android:layout_width="119dp"
         android:layout_height="46dp"
         android:layout_marginBottom="6dp"
-        android:background="@color/colorPrimary"
+        android:background="@drawable/buttonshape"
         android:text="Add weight"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -34,7 +34,7 @@
         android:id="@+id/mButtonRemoveWeightList"
         android:layout_width="119dp"
         android:layout_height="46dp"
-        android:background="@color/red"
+        android:background="@drawable/buttonshapered"
         android:text="Remove all"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -58,6 +58,8 @@
             android:id="@+id/mLinearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:showDividers="middle"
+            android:divider="@drawable/empty_tall_divider"
             android:orientation="vertical" />
     </ScrollView>
 

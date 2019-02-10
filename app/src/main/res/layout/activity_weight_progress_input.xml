@@ -7,14 +7,14 @@
 
     <Button
         android:id="@+id/mButtonWeightProgressIn"
-        android:layout_width="wrap_content"
-        android:layout_height="54dp"
-        android:layout_marginBottom="68dp"
-        android:text="Button"
-        android:background="@color/colorPrimary"
+        android:layout_width="120dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="104dp"
+        android:background="@drawable/buttonshape"
+        android:text="Add weight"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.442"
+        app:layout_constraintHorizontal_bias="0.45"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
@@ -48,7 +48,7 @@
         android:layout_width="214dp"
         android:layout_height="57dp"
         android:text="Date"
-        android:background="@color/colorPrimary"
+        android:background="@drawable/buttonshape"
         app:layout_constraintBottom_toTopOf="@+id/mButtonWeightProgressIn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.417"

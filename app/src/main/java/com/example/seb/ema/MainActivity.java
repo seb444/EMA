@@ -102,6 +102,18 @@ public class MainActivity extends AppCompatActivity {
         email=editText.getText().toString();
         password=editTextPassword.getText().toString();
 
+        if(password.isEmpty()){
+            Toast.makeText(MainActivity.this, "Passwort eingeben",
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(email.isEmpty()){
+            Toast.makeText(MainActivity.this, "Email eingeben",
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
+
 
             mAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {

@@ -69,9 +69,6 @@ public class Main2Activity extends AppCompatActivity
         Toolbar toolbar =  findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab =  findViewById(R.id.fab);
-        fab.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show());
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -162,6 +159,10 @@ public class Main2Activity extends AppCompatActivity
             finish();
 
 
+        }  else if (id == R.id.nav_weightProgress) {
+            Intent intent = new Intent(getApplicationContext(), Main3Activity.class);
+            startActivity(intent);
+            finish();
 
         } else if (id == R.id.nav_Map) {
             if(isServicesOK()){
@@ -172,18 +173,10 @@ public class Main2Activity extends AppCompatActivity
 
 
 
-        } else if (id == R.id.nav_weightProgress) {
-            Intent intent = new Intent(getApplicationContext(), Main3Activity.class);
-            startActivity(intent);
-            finish();
-        } else if (id == R.id.nav_manage) {
-
         } else if (id == R.id.nav_groups) {
             Intent intent = new Intent(getApplicationContext(), Group.class);
             startActivity(intent);
             finish();
-        } else if (id == R.id.nav_send) {
-
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

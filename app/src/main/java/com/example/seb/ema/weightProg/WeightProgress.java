@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -65,7 +67,7 @@ public class WeightProgress extends Fragment {
     private FirebaseUser user;
     private FirebaseDatabase database;
     private FirebaseAuth mAuth;
-
+    private Context context;
     DatabaseReference mRef;
 
     ScrollView scrollView;
@@ -79,7 +81,7 @@ public class WeightProgress extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.activity_weight_progress, container, false);
-
+        context=getContext();
         mAuth=FirebaseAuth.getInstance();
         user=mAuth.getCurrentUser();
         database=FirebaseDatabase.getInstance();
@@ -131,6 +133,7 @@ public class WeightProgress extends Fragment {
                         SharedPreferences sp = Objects.requireNonNull(getContext()).getSharedPreferences("EMA", Context.MODE_PRIVATE);
 
                         sp.edit().remove("liste").apply();
+                        mSeries1.resetData(new DataPoint[0]);
 
             }
         });
@@ -189,8 +192,9 @@ public class WeightProgress extends Fragment {
 
                     for (mWeightProgress m:mWeightProgressList) {
                         if(m==null) return;
-                        Button button1 = new Button(mRootview.getContext());
-                        button1.setText(String.format("%.2f", m.getWeight())+"\t"+m.getNote());
+                        Button button1 = new Button(context);
+                        button1.setText(String.format("%.2f", m.getWeight())+"\t\t\t"+m.getNote());
+                        button1.setBackground(ContextCompat.getDrawable(context,R.drawable.buttonshape));
 
 
                         linearLayout.addView(button1);
