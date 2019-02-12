@@ -1,4 +1,4 @@
-package com.example.seb.ema.fragmentpagerefresh;
+package com.example.seb.ema.fragments;
 import com.jjoe64.graphview.series.DataPoint;
 import java.util.Comparator;
 

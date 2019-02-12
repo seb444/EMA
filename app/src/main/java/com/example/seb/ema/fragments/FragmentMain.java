@@ -1,4 +1,4 @@
-package com.example.seb.ema.framents;
+package com.example.seb.ema.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,16 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.example.seb.ema.R;
-import com.example.seb.ema.fragmentpagerefresh.Utils;
+import com.example.seb.ema.Utils.Utils;
 
 
-/**
- * A placeholder fragment containing a simple view.
- */
+
 public class FragmentMain extends Fragment implements FragmentTabHost.OnTabChangeListener{
     private FragmentTabHost mTabHost;
     private static final String TAG = "FragmentMain";
-    /* Avoid non-default constructors in fragments: use a default constructor plus Fragment.setArguments(Bundle) instead and use Type value = getArguments().getType("key") to retrieve back the values in the bundle in onCreateView()*/
+
     public FragmentMain() {
     }
 
@@ -33,15 +31,9 @@ public class FragmentMain extends Fragment implements FragmentTabHost.OnTabChang
         mTabHost = rootView.findViewById(R.id.tabhost);
         mTabHost.setup(getActivity(), getChildFragmentManager(), android.R.id.tabcontent);
         Bundle bundle = new Bundle();
-      //  bundle.putString(Utils.EXTRA_TITLE, Utils.TAB_PAGER_ADAPTER);
 
-        //The third parameter is a Bundle object, that will be received inside the fragment.
         mTabHost.addTab(mTabHost.newTabSpec(Utils.TAB_PAGER_ADAPTER).setIndicator(Utils.TAB_PAGER_ADAPTER), PagerAdapterFragment.class, bundle);
 
-        //mTabHost.addTab(mTabHost.newTabSpec(Utils.TAB_FRAGMENT_STATE_PAGER_ADAPTER).setIndicator(Utils.TAB_FRAGMENT_STATE_PAGER_ADAPTER), FragmentStatePagerAdapterFragment.class, bundle);
-      //  mTabHost.setOnTabChangedListener(this);
-
-        //By Default the title TextView of Tab shows all caps characters, we are making it setAllCaps(false).
         TextView tv =   mTabHost.getTabWidget().getChildAt(0).findViewById(android.R.id.title);
         tv.setAllCaps(false);
 
@@ -58,15 +50,7 @@ public class FragmentMain extends Fragment implements FragmentTabHost.OnTabChang
     @Override
     public void onTabChanged(String tabId) {
         Log.i(TAG, "onTabChanged*** tabId:"+tabId);
-        switch (tabId){
-//            case Utils.TAB_FRAGMENT_PAGER_ADAPTER:
-//                break;
-//            case Utils.TAB_FRAGMENT_STATE_PAGER_ADAPTER:
-//                break;
-        }
     }
-
-
 
 }
 
