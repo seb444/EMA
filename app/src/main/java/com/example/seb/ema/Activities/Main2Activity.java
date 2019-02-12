@@ -1,10 +1,8 @@
-package com.example.seb.ema;
+package com.example.seb.ema.Activities;
 
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -21,9 +19,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.seb.ema.R;
 import com.example.seb.ema.group.Group;
 import com.example.seb.ema.weightProg.Main3Activity;
-import com.example.seb.ema.fragmentpagerefresh.MainActivityFragment;
+import com.example.seb.ema.fragments.MainActivityFragment;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.firebase.auth.FirebaseAuth;
@@ -36,39 +35,18 @@ public class Main2Activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener  {
 
     private static final String TAG = "Main2Activity";
-
     private static final int ERROR_DIALOG_REQUEST = 9001;
 
-    /**
-     * The number of pages (wizard steps) to show in this demo.
-     */
-    private static  int NUM_PAGES = 7;
-
-    /**
-     * The pager widget, which handles animation and allows swiping horizontally to access previous
-     * and next wizard steps.
-     */
     private ViewPager mPager;
-
-    /**
-     * The pager adapter, which provides the pages to the view pager widget.
-     */
-    private PagerAdapter mPagerAdapter;
-
-    List<android.support.v4.app.Fragment> allFragments = new LinkedList<>();
-
-
-    FirebaseUser user;
-    TextView textViewEmail;
-    Button button;
+    private FirebaseUser user;
     private FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
         Toolbar toolbar =  findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -79,16 +57,14 @@ public class Main2Activity extends AppCompatActivity
         NavigationView navigationView =  findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        //getting current User
+        //Getting current User
         mAuth = FirebaseAuth.getInstance();
         user=mAuth.getCurrentUser();
 
-        //Setting textview in nav bar
+        //Setting textView in nav bar
         View hView =  navigationView.getHeaderView(0);
         TextView nav_user = hView.findViewById(R.id.textViewEmail);
         nav_user.setText(user.getEmail());
-
-
 
     }
 
@@ -124,7 +100,6 @@ public class Main2Activity extends AppCompatActivity
             startActivity(intent);
             finish();
 
-
             return true;
         }
 
@@ -142,18 +117,6 @@ public class Main2Activity extends AppCompatActivity
         }
 
         if (id == R.id.nav_TrainingPlan) {
-         //   setTitle("train");
-          //  FragmentTP fragmentTP =new FragmentTP();
-          //  FragmentManager fragmentManager= getSupportFragmentManager();
-           // fragmentManager.beginTransaction().replace(R.id.fragment, fragmentTP).commit();
-
-            // Instantiate a ViewPager and a PagerAdapter.
-
-         //   mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
-          //  mPager.setAdapter(mPagerAdapter);
-
-
-           // allFragments  = fragmentManager.getFragments();
             Intent intent = new Intent(getApplicationContext(), MainActivityFragment.class);
             startActivity(intent);
             finish();
@@ -171,8 +134,6 @@ public class Main2Activity extends AppCompatActivity
                 finish();
             }
 
-
-
         } else if (id == R.id.nav_groups) {
             Intent intent = new Intent(getApplicationContext(), Group.class);
             startActivity(intent);
@@ -181,6 +142,7 @@ public class Main2Activity extends AppCompatActivity
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+
         return true;
     }
 
@@ -204,5 +166,4 @@ public class Main2Activity extends AppCompatActivity
         }
         return false;
     }
-
 }

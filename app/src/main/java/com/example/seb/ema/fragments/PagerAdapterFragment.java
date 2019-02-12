@@ -1,6 +1,5 @@
-package com.example.seb.ema.framents;
+package com.example.seb.ema.fragments;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -28,11 +27,9 @@ import java.util.List;
 import java.util.Map;
 
 
-import com.example.seb.ema.adapters.MyPagerAdapter;
-import com.example.seb.ema.fragmentpagerefresh.Utils;
+import com.example.seb.ema.adapter.MyPagerAdapter;
+import com.example.seb.ema.Utils.Utils;
 import com.example.seb.ema.R;
-import com.example.seb.ema.fragmentpagerefresh.mWeightProgress;
-import com.example.seb.ema.weightProg.WeightProgressInput;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -41,44 +38,33 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
-import com.jjoe64.graphview.series.DataPoint;
 
-/**
- * Created by noor on 10/04/15.
- */
 public class PagerAdapterFragment extends Fragment implements View.OnClickListener, DatePickerDialog.OnDateSetListener {
 
     private static final String TAG = "PagerAdapterFragment";
     private MyPagerAdapter mPagerAdapter;
     private ViewPager mViewPager;
-    private String test;
-    public static boolean first;
-    public static boolean realfirst;
-    // private  TextView textView;
-    private FloatingActionButton button;
+
     private static int i = 0;
     private ArrayList<Utils.TrainingPlan> trainingPlans=new ArrayList<>();;
     private static ArrayList<Utils.TrainingPlan> dummyItems2 =new ArrayList<>();
-    private static ArrayList<Utils.TrainingPlan> dummyItems3 =new ArrayList<>();;
-    private static ArrayList<String> images = new ArrayList<>();
-    private static ArrayList<Double> weights = new ArrayList<>();
-    Activity activity;
-    public static ViewPager vp;
-    // private DatabaseReference mDatabase;
-    private FirebaseDatabase mDatabase;
-    private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
+
     private Context context;
-    private int mYear, mMonth, mDay, mHour, mMinute;
-    private Calendar c, c2;
+
+    Calendar c, c2;
     FirebaseDatabase database;
     DatabaseReference myRef;
+    FirebaseDatabase mDatabase;
+    FirebaseAuth mAuth;
+    FirebaseAuth.AuthStateListener mAuthListener;
     FirebaseUser user;
+
+    ViewPager vp;
     Button btnDatePicker, btnTimePicker;
     FloatingActionButton btnDeleteAllTps;
+    int mYear, mMonth, mDay;
 
 
-    /* Avoid non-default constructors in fragments: use a default constructor plus Fragment.setArguments(Bundle) instead and use Type value = getArguments().getType("key") to retrieve back the values in the bundle in onCreateView()*/
     public PagerAdapterFragment() {
     }
 
@@ -94,24 +80,21 @@ public class PagerAdapterFragment extends Fragment implements View.OnClickListen
         context = getContext();
 
 
-
-
         btnDeleteAllTps.setOnClickListener(this);
         buttonThumb.setOnClickListener(this);
 
         btnDatePicker.setOnClickListener(this);
         btnTimePicker.setOnClickListener(this);
 
-        //Get firebase instance
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance();
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference();
-         user =mAuth.getCurrentUser();
+        user =mAuth.getCurrentUser();
 
         mViewPager = rootView.findViewById(R.id.viewpager);
 
-        mPagerAdapter = new MyPagerAdapter( trainingPlans, getActivity());
+        mPagerAdapter = new MyPagerAdapter( trainingPlans, context);
         mViewPager.setAdapter(mPagerAdapter);
 
         vp = mViewPager;
@@ -133,30 +116,22 @@ public class PagerAdapterFragment extends Fragment implements View.OnClickListen
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-             //   trainingPlans.clear();
-
-                // Utils.setExerciseNames(images);
-                //trainingPlans.addAll(dummyItems2);
-
 
                 GenericTypeIndicator<List<Utils.TrainingPlan>> t = new GenericTypeIndicator<List<Utils.TrainingPlan>>() {};
-
-
-
-               // if(trainingPlans==null) return;
 
                 try{
 
                     trainingPlans=(ArrayList<Utils.TrainingPlan>) dataSnapshot.getValue(t);
-                    if(trainingPlans==null) trainingPlans= new ArrayList<>();
-                    mPagerAdapter = new MyPagerAdapter( trainingPlans, getActivity());
-                    mViewPager.setAdapter(mPagerAdapter);
 
+                    if(trainingPlans==null) trainingPlans= new ArrayList<>();
+
+                    mPagerAdapter = new MyPagerAdapter( trainingPlans, context);
+                    mViewPager.setAdapter(mPagerAdapter);
                     mPagerAdapter.notifyDataSetChanged();
+
                 }catch (Exception e){
                     e.printStackTrace();
                 }
-
             }
 
             @Override
@@ -201,16 +176,16 @@ public class PagerAdapterFragment extends Fragment implements View.OnClickListen
                 datePickerDialog2.show();
 
                 break;
+
             case R.id.mButtonDeleteAllTP:
+
                 myRef.removeValue();
+
                 break;
+
             case R.id.mButtonShowIn:
 
-
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-
-                    Date startIn;
-                    Date endIn;
+                    //Get all Input Trainingsplan
                     TextView enIn = v.getRootView().findViewById(R.id.mExerciseNIn);
                     TextView weightIn = v.getRootView().findViewById(R.id.mWeightIn);
                     TextView setsIn = v.getRootView().findViewById(R.id.mSetsIn);
@@ -221,14 +196,15 @@ public class PagerAdapterFragment extends Fragment implements View.OnClickListen
 
                     String startI = startDateIn.getText().toString();
                     String endI = endDateIn.getText().toString();
+
                     if(startI.equals("Pick a date")|| endI.equals("Pick a date")){
-                        Toast.makeText(context, "Datum eingeben",
+                        Toast.makeText(context, "Enter Date",
                                 Toast.LENGTH_LONG).show();
                     }
                     try {
+                        //Create new Object and notify Paderadapter about change
                         dummyItems2.clear();
                         dummyItems2.add(new Utils.TrainingPlan(enIn.getText().toString(), Double.parseDouble(weightIn.getText().toString()), i++, Integer.parseInt(setsIn.getText().toString()), startI, endI, Double.parseDouble(increaseWeightTimeIn.getText().toString()), Double.parseDouble(weightIncreaseIn.getText().toString()), "s"));//textView.getText().toString()
-                        images.add(enIn.getText().toString() + 1);
 
 
                         trainingPlans.addAll(dummyItems2);
@@ -241,12 +217,10 @@ public class PagerAdapterFragment extends Fragment implements View.OnClickListen
                             Toast.LENGTH_SHORT).show();
 
 
-                    Map<String, String> user_info = new HashMap<String, String>();
-
-                    user_info.put("uid",user.getUid());
-
                     myRef.setValue(trainingPlans);
 
+
+                    //Remove previous Input
                     enIn.setText("");
                     weightIn.setText("");
                     setsIn.setText("");
@@ -254,9 +228,7 @@ public class PagerAdapterFragment extends Fragment implements View.OnClickListen
                     endDateIn.setText("Pick a date");
                     increaseWeightTimeIn.setText("");
                     weightIncreaseIn.setText("");
-
                 }
-
         }
 
     @Override

@@ -1,4 +1,4 @@
-package com.example.seb.ema.fragmentpagerefresh;
+package com.example.seb.ema.Utils;
 
 
 public class mWeightProgress {
@@ -30,11 +30,4 @@ public class mWeightProgress {
         return note;
     }
 
-    public void setWeight(Double weight) {
-        this.weight = weight;
-    }
-
-    public void setNote(String note) {
-        this.note = note;
-    }
 }

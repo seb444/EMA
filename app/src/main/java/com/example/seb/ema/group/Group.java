@@ -14,7 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
-import com.example.seb.ema.Main2Activity;
+import com.example.seb.ema.Activities.Main2Activity;
 import com.example.seb.ema.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -24,22 +24,22 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class Group extends AppCompatActivity {
 
-    private FirebaseDatabase database;
-    private FirebaseAuth auth;
+
     private DatabaseReference mRef;
     private DatabaseReference myRef;
     private FirebaseUser user;
+    private Map<String, String> map;
     String username;
     ScrollView scrollView;
     LinearLayout linearLayout;
     Context context;
-    private Map<String, String> map;
-    private String grouppath;
+    FirebaseDatabase database;
+    FirebaseAuth auth;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,33 +51,18 @@ public class Group extends AppCompatActivity {
         mRef=database.getReference();
         myRef=database.getReference();
         user=auth.getCurrentUser();
+
         Button button= findViewById(R.id.mButtonGroupIn);
 
-
-
-
-
-        scrollView = (ScrollView) findViewById(R.id.mScrollViewGroup);
+        scrollView =  findViewById(R.id.mScrollViewGroup);
         linearLayout = findViewById(R.id.mLinearLayoutGroup);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
         context=this;
 
-        EditText editText=findViewById(R.id.mEditTextGroupIn);
-        String string=editText.getText().toString();
         mRef.child("userGroups").child(user.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-              // grouppath = dataSnapshot.getValue(String.class);
 
-
-
-/*
-                Button button1 = new Button(mRootview.getContext());
-                button1.setText(dataSnapshot.getValue(String.class));
-
-                TextView test= mRootview.findViewById(R.id.Mtest);
-                test.setText(dataSnapshot.getValue(String.class));
-                linearLayout.addView(button1);*/
                 linearLayout.removeAllViews();
                 try {
                     map = (Map) dataSnapshot.getValue();
@@ -85,7 +70,7 @@ public class Group extends AppCompatActivity {
                     return;
                 }
                 if(map==null){
-                    Log.d("1000", "FEHLER");
+                    Log.d("1000", "Map is null");
                     return;
                 }
                 for(Map.Entry<String, String> entry : map.entrySet()) {
@@ -95,18 +80,14 @@ public class Group extends AppCompatActivity {
                     Button button1 = new Button(context);
                     button1.setText(String.format(key));
                     button1.setBackground(ContextCompat.getDrawable(context,R.drawable.buttonshape));
-                    button1.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent(Group.this, SingleGroupView.class);
-                            intent.putExtra("Path", button1.getText().toString());
-                            startActivity(intent);
-                        }
+
+                    button1.setOnClickListener(v -> {
+                        Intent intent = new Intent(Group.this, SingleGroupView.class);
+                        intent.putExtra("Path", button1.getText().toString());
+                        startActivity(intent);
                     });
 
                     linearLayout.addView(button1);
-
-
                 }
             }
 
@@ -116,34 +97,22 @@ public class Group extends AppCompatActivity {
             }
         });
 
+        button.setOnClickListener(v -> {
+            EditText editText=findViewById(R.id.mEditTextGroupIn);
+            String string=editText.getText().toString();
 
-
-
-
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                EditText editText=findViewById(R.id.mEditTextGroupIn);
-                String string=editText.getText().toString();
-
-                if(string.isEmpty()){
-                    Toast.makeText(Group.this, "Groupname missing",
-                            Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                Log.d("string",string+ username);
-
-
-                mRef.child("groups").child(string).child(user.getUid()).setValue(username);
-
-                mRef.child("userGroups").child(user.getUid()).child(string).setValue("false");
-
+            if(string.isEmpty()){
+                Toast.makeText(Group.this, "Groupname missing",
+                        Toast.LENGTH_SHORT).show();
+                return;
             }
+
+            Log.d("1542",string+ username);
+
+            mRef.child("groups").child(string).child(user.getUid()).setValue(username);
+
+            mRef.child("userGroups").child(user.getUid()).child(string).setValue("false");
         });
-
-
     }
 
 
@@ -152,7 +121,6 @@ public class Group extends AppCompatActivity {
         myRef.child("users/"+user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
 
                 username=dataSnapshot.getValue(String.class);
             }
