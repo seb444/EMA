@@ -74,12 +74,13 @@ public class WeightProgressInput extends AppCompatActivity {
             try{
                 double weight= Double.parseDouble(weightIn.getText().toString());
 
-                if(weight>500){
-                    Toast.makeText(WeightProgressInput.this, "Unzulässiges gewicht",
+                if(weight>300){
+                    Toast.makeText(WeightProgressInput.this, "Weight too high",
                             Toast.LENGTH_LONG).show();
 
                     return;
                 }
+
 
                 mWeightProgressList.add(new mWeightProgress(weight,date,noteIn.getText().toString()));
             }catch (Exception e){

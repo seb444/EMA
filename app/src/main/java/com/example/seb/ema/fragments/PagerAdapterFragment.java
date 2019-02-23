@@ -18,13 +18,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 import com.example.seb.ema.adapter.MyPagerAdapter;
@@ -71,7 +67,7 @@ public class PagerAdapterFragment extends Fragment implements View.OnClickListen
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_sample, container, false);
+        View rootView = inflater.inflate(R.layout.trainings_plan_input, container, false);
         FloatingActionButton buttonThumb = rootView.findViewById(R.id.mButtonShowIn);
         btnDatePicker = rootView.findViewById(R.id.mStartDateIn);
         btnTimePicker = rootView.findViewById(R.id.mEndDateIn);
@@ -197,24 +193,26 @@ public class PagerAdapterFragment extends Fragment implements View.OnClickListen
                     String startI = startDateIn.getText().toString();
                     String endI = endDateIn.getText().toString();
 
-                    if(startI.equals("Pick a date")|| endI.equals("Pick a date")){
+                    if(startI.equals("Pick start date")|| endI.equals("Pick end date")){
                         Toast.makeText(context, "Enter Date",
                                 Toast.LENGTH_LONG).show();
+                        return;
                     }
                     try {
                         //Create new Object and notify Paderadapter about change
                         dummyItems2.clear();
-                        dummyItems2.add(new Utils.TrainingPlan(enIn.getText().toString(), Double.parseDouble(weightIn.getText().toString()), i++, Integer.parseInt(setsIn.getText().toString()), startI, endI, Double.parseDouble(increaseWeightTimeIn.getText().toString()), Double.parseDouble(weightIncreaseIn.getText().toString()), "s"));//textView.getText().toString()
+                        dummyItems2.add(new Utils.TrainingPlan(enIn.getText().toString(), Double.parseDouble(weightIn.getText().toString()), i++, Integer.parseInt(setsIn.getText().toString()), startI, endI,
+                                        Double.parseDouble(increaseWeightTimeIn.getText().toString()), Double.parseDouble(weightIncreaseIn.getText().toString()), "s"));
 
 
                         trainingPlans.addAll(dummyItems2);
                         mPagerAdapter.notifyDataSetChanged();
                     }catch(Exception ex){
-                        Toast.makeText(getActivity(), "Alle Felder korrekt ausfüllen",
+                        Toast.makeText(context, "Enter all fields",
                                 Toast.LENGTH_LONG).show();
+
+                        return;
                     }
-                    Toast.makeText(this.getActivity(), enIn.getText().toString(),
-                            Toast.LENGTH_SHORT).show();
 
 
                     myRef.setValue(trainingPlans);
@@ -224,8 +222,8 @@ public class PagerAdapterFragment extends Fragment implements View.OnClickListen
                     enIn.setText("");
                     weightIn.setText("");
                     setsIn.setText("");
-                    startDateIn.setText("Pick a date");
-                    endDateIn.setText("Pick a date");
+                    startDateIn.setText("Pick start date");
+                    endDateIn.setText("Pick end date");
                     increaseWeightTimeIn.setText("");
                     weightIncreaseIn.setText("");
                 }

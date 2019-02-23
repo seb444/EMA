@@ -7,26 +7,28 @@
 
     <Button
         android:id="@+id/mButtonWeightProgressIn"
-        android:layout_width="120dp"
+        android:layout_width="128dp"
         android:layout_height="60dp"
-        android:layout_marginBottom="104dp"
+        android:layout_marginBottom="88dp"
         android:background="@drawable/buttonshape"
         android:text="Add weight"
+        android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.45"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/mEditTextWeightPIn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="48dp"
         android:ems="10"
         android:hint="weight"
         android:inputType="textPersonName|number"
+        android:maxLength="5"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.42"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -34,11 +36,13 @@
         android:id="@+id/mEditTextNotePIn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         android:ems="10"
         android:hint="note"
         android:inputType="textPersonName"
+        android:maxLength="30"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.42"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/mEditTextWeightPIn"
         app:layout_constraintVertical_chainStyle="spread_inside" />
@@ -47,11 +51,12 @@
         android:id="@+id/mButtonWpDateIn"
         android:layout_width="214dp"
         android:layout_height="57dp"
-        android:text="Date"
         android:background="@drawable/buttonshape"
+        android:text="Date"
+        android:textAllCaps="false"
         app:layout_constraintBottom_toTopOf="@+id/mButtonWeightProgressIn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.417"
+        app:layout_constraintHorizontal_bias="0.505"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/mEditTextNotePIn"
         app:layout_constraintVertical_bias="0.0" />

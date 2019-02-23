@@ -70,11 +70,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     FirebaseUser user;
     ValueEventListener listener;
     List<stringMLatLng>lngs = new ArrayList<>();
+    List<String> keyUsername= new ArrayList<>();
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        Toast.makeText(this, "Map is Ready", Toast.LENGTH_SHORT).show();
         Log.d(TAG, "onMapReady: map is ready");
+
         mMap = googleMap;
 
         mAuth = FirebaseAuth.getInstance();
@@ -84,6 +85,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         if(user==null) return;
 
+        //Get username from firebase
         mRef.child("users/"+user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -98,12 +100,14 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
 
+        //Firebase listener for receiving coordinate of other users
        listener= mRef.child("positions").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                         LatLng mapsLatLng;
                         Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+
 
                         for (DataSnapshot d:children) {
                             stringMLatLng latLng = d.getValue(stringMLatLng.class);
@@ -114,16 +118,20 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                             Log.v("ValueIs", d.getValue().toString());
 
                             lngs.add(latLng);
+                            keyUsername.add(d.getKey());
                         }
 
+                        int keyCount=0;
                         //For every user create a marker
                         for (stringMLatLng lng : lngs) {
+
                             try{
+
                                 mapsLatLng = new LatLng(lng.getmLatLng().getLatitude(), lng.getmLatLng().getLongitude());
                                 mMap.addMarker(new MarkerOptions()
                                         .position(mapsLatLng)
                                         .alpha(454)
-                                        .title(username)
+                                        .title(keyUsername.get(keyCount++))
                                         .snippet("")
                                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
                             }catch(Exception e){
@@ -139,6 +147,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
 
+       //Check whether permissions are granted
         if (mLocationPermissionsGranted) {
             getDeviceLocation(1);
 
@@ -155,6 +164,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
 
         key= mRef.child("positions").push().getKey();
+
     }
 
     @Override
@@ -178,6 +188,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                         Log.d(TAG, "onComplete: found location!");
                          currentLocation = (Location) task.getResult();
                         try{
+                            //Move camera to coordinates
                             if(i==1){
                                 moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()),
                                         DEFAULT_ZOOM);
@@ -191,6 +202,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                         myRef=mRef.child("positions/"+username);
                         FirebaseUser user =mAuth.getCurrentUser();
 
+                        if(user==null) return;
 
                         mLatLng lng= new mLatLng();
                         try{
@@ -203,10 +215,13 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                         stringMLatLng stringMLatLng= new stringMLatLng();
                         stringMLatLng.setmLatLng(lng);
 
+                        //Add random number so coordinates refresh in firebase when standing still
+                        Random rand = new Random();
+                        int rnd= rand.nextInt(2);
 
+                        stringMLatLng.setUid(user.getUid()+rnd);
 
-                        stringMLatLng.setUid(user.getUid());
-
+                        //write in firebase
                         myRef.setValue(stringMLatLng);
 
                     }else{
@@ -319,7 +334,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 }catch (Exception ex){
                     Log.d(TAG, "Map clear failed");
                 }
-                mHandler2.postDelayed(this, 10000);
+                mHandler2.postDelayed(this, 5000);
             }
         };
 

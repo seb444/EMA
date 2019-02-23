@@ -12,19 +12,19 @@ public class Utils {
         private int sets;
         private String startDate;
         private String endDate;
-        private double increaseWeightTime;
+        private double reps;
         private double weightIncrease;
         private String youtubeUrl;
 
 
-        public TrainingPlan(String exerciseName, Double weight, int id, int sets, String startDate, String endDate, double increaseWeightTime, double weightIncrease, String youtubeUrl) {
+        public TrainingPlan(String exerciseName, Double weight, int id, int sets, String startDate, String endDate, double reps, double weightIncrease, String youtubeUrl) {
             this.exerciseName = exerciseName;
             this.weight = weight;
             this.id = id;
             this.sets = sets;
             this.startDate = startDate;
             this.endDate = endDate;
-            this.increaseWeightTime = increaseWeightTime;
+            this.reps = reps;
             this.weightIncrease = weightIncrease;
             this.youtubeUrl = youtubeUrl;
         }
@@ -54,8 +54,8 @@ public class Utils {
             return endDate;
         }
 
-        public double getIncreaseWeightTime() {
-            return increaseWeightTime;
+        public double getReps() {
+            return reps;
         }
 
         public double getWeightIncrease() {

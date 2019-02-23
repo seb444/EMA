@@ -1,7 +1,9 @@
 package com.example.seb.ema.Activities;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -27,9 +29,14 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
+import com.jjoe64.graphview.series.DataPoint;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
+
+import static java.security.AccessController.getContext;
 
 public class Main2Activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener  {
@@ -37,9 +44,9 @@ public class Main2Activity extends AppCompatActivity
     private static final String TAG = "Main2Activity";
     private static final int ERROR_DIALOG_REQUEST = 9001;
 
-    private ViewPager mPager;
-    private FirebaseUser user;
-    private FirebaseAuth mAuth;
+    ViewPager mPager;
+    FirebaseUser user;
+    FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +101,10 @@ public class Main2Activity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+
+            SharedPreferences sp = Objects.requireNonNull(this.getSharedPreferences("EMA", Context.MODE_PRIVATE));
+            sp.edit().remove("liste").apply();
+
             FirebaseAuth.getInstance().signOut();
 
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);

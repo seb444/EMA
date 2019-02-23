@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -80,6 +81,7 @@ public class Group extends AppCompatActivity {
                     Button button1 = new Button(context);
                     button1.setText(String.format(key));
                     button1.setBackground(ContextCompat.getDrawable(context,R.drawable.buttonshape));
+                    button1.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
 
                     button1.setOnClickListener(v -> {
                         Intent intent = new Intent(Group.this, SingleGroupView.class);
@@ -101,6 +103,7 @@ public class Group extends AppCompatActivity {
             EditText editText=findViewById(R.id.mEditTextGroupIn);
             String string=editText.getText().toString();
 
+            editText.setText("");
             if(string.isEmpty()){
                 Toast.makeText(Group.this, "Groupname missing",
                         Toast.LENGTH_SHORT).show();
@@ -110,8 +113,11 @@ public class Group extends AppCompatActivity {
             Log.d("1542",string+ username);
 
             mRef.child("groups").child(string).child(user.getUid()).setValue(username);
+            mRef.child("userReady").child(string).child(username).setValue("false");
 
-            mRef.child("userGroups").child(user.getUid()).child(string).setValue("false");
+            mRef.child("userGroups").child(user.getUid()).child(string).setValue("true");
+
+
         });
     }
 

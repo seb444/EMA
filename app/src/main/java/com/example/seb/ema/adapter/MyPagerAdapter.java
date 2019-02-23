@@ -9,14 +9,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import com.example.seb.ema.Utils.Utils;
 import com.example.seb.ema.R;
 
-/**
- * Created by noor on 01/04/15.
- */
+
 public class MyPagerAdapter extends PagerAdapter {
 
     private static final String TAG = "MyPagerAdapter";
@@ -52,8 +51,11 @@ public class MyPagerAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         // Inflate a new layout from our resources
-        View view = mLayoutInflater.inflate(R.layout.photo_layout, container, false);
+        View view = mLayoutInflater.inflate(R.layout.trainings_plan_output, container, false);
         // Retrieve a TextView from the inflated View, and update it's text
+
+        DecimalFormat format = new DecimalFormat();
+        format.setDecimalSeparatorAlwaysShown(false);
 
         //Get all input textViews
         TextView enIn=view.getRootView().findViewById(R.id.mExerciseNOut);
@@ -61,19 +63,20 @@ public class MyPagerAdapter extends PagerAdapter {
         TextView setsIn  =view.getRootView().findViewById(R.id.mSetsOut);
         TextView startDateIn=view.getRootView().findViewById(R.id.mStartDateOut);
         TextView endDateIn=view.getRootView().findViewById(R.id.mEndDateOut);
-        TextView increaseWeightTimeIn=view.getRootView().findViewById(R.id.mIncreaseWeightTimeOut);
+        TextView reps=view.getRootView().findViewById(R.id.mIncreaseWeightTimeOut);
         TextView weightIncreaseIn=view.getRootView().findViewById(R.id.mIncreaseWeightOut);
 
         Utils.TrainingPlan trainingPlan = mTrainingPlans.get(position);
-        enIn.setText(trainingPlan.getExerciseName());
+
         try{
-            weightIn.setText(Double.toString(trainingPlan.getWeight()));
-            setsIn.setText(Double.toString(trainingPlan.getSets()));
-            setsIn.setText(Double.toString(trainingPlan.getSets()));
+            enIn.setText(trainingPlan.getExerciseName());
+            weightIn.setText(format.format(trainingPlan.getWeight()));
+            setsIn.setText(format.format(trainingPlan.getSets()));
+            setsIn.setText(format.format(trainingPlan.getSets()));
             startDateIn.setText(trainingPlan.getStartDate());
             endDateIn.setText(trainingPlan.getEndDate());
-            increaseWeightTimeIn.setText(Double.toString(trainingPlan.getIncreaseWeightTime()));
-            weightIncreaseIn.setText(Double.toString(trainingPlan.getWeightIncrease()));
+            reps.setText(format.format(trainingPlan.getReps()));
+            weightIncreaseIn.setText(format.format(trainingPlan.getWeightIncrease()));
         }catch (Exception e){
             e.printStackTrace();
         }

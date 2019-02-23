@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -52,7 +53,6 @@ public class SingleGroupView extends AppCompatActivity {
         myRef=database.getReference();
         user=auth.getCurrentUser();
 
-        int t= R.drawable.empty_tall_divider;
 
         linearLayout = findViewById(R.id.mLinearLayoutSingleGroup);
         linearLayout.setDividerDrawable(Drawable.createFromPath("@drawable/empty_tall_divider"));
@@ -66,6 +66,7 @@ public class SingleGroupView extends AppCompatActivity {
         button.setOnClickListener(v -> {
             mRef.child("groups").child(string).child(user.getUid()).removeValue();
             mRef.child("userGroups").child(user.getUid()).child(string).removeValue();
+            mRef.child("userReady").child(string).child(username).removeValue();
 
             Intent intent = new Intent(getApplicationContext(), Group.class);
             startActivity(intent);
@@ -88,8 +89,11 @@ public class SingleGroupView extends AppCompatActivity {
                     String value = entry.getValue();
 
                     Button button1 = new Button(context);
+                    button1.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
                     button1.setText(String.format(value));
                     button1.setBackgroundColor(Color.RED);
+
+
                     button1.setOnClickListener(v -> {
                         Log.d("1001", key+"\n"+user.getUid());
                         if(key.equals(user.getUid())) {
@@ -120,7 +124,6 @@ public class SingleGroupView extends AppCompatActivity {
 
                     return;
                 }
-                int i=1;
                 int count=0;
 
                 if(linearLayout.getChildCount()==0) return;
@@ -130,28 +133,24 @@ public class SingleGroupView extends AppCompatActivity {
                     String value = entry.getValue();
 
                     Button button1 = new Button(context);
+                    button1.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
                     button1.setText(String.format(key));
                     button1.setBackgroundColor(Color.RED);
 
                     Log.d("1005", value+"\n"+key);
 
                     if(value.equals("true")) {
-                        View btn = linearLayout.getChildAt(i);
 
-                        if(btn!=null){
-                            btn.setBackgroundColor(Color.GREEN);
-                        }
-                        count++;
+                            for(int j=0;j<linearLayout.getChildCount();j++){
+                                View btn = linearLayout.getChildAt(j);
+
+                                if(btn!=null&&((Button) btn).getText().toString().toLowerCase().equals(key)){
+                                    btn.setBackgroundColor(Color.GREEN);
+                                    count++;
+                                }
+                            }
                     }
 
-                    if(value.equals("false")) {
-                        View btn = linearLayout.getChildAt(i);
-                        if(btn!=null){
-                            btn.setBackgroundColor(Color.RED);
-                        }
-                    }
-
-                    i++;
 
                     button1.setOnClickListener(v -> {
                         Log.d("10088", button1.getText().toString().toLowerCase());
@@ -174,7 +173,7 @@ public class SingleGroupView extends AppCompatActivity {
                 }
 
                 if(count==map.size()){
-                    for ( i = 0; i < linearLayout.getChildCount(); i++) {
+                    for ( int i = 0; i < linearLayout.getChildCount(); i++) {
                         View btn = linearLayout.getChildAt(i);
                         if (btn instanceof Button) {
                             mRef.child("userReady").child(string).child(((Button) btn).getText().toString()).setValue("false");

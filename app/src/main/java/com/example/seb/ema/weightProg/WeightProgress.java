@@ -146,7 +146,7 @@ public class WeightProgress extends Fragment {
                         if(m==null) return;
 
                         Button button1 = new Button(context);
-                        button1.setText(String.format("%.2f", m.getWeight())+"\t\t\t"+m.getNote());
+                        button1.setText(String.format("%.2f", m.getWeight())+"\t\t"+m.getDate()+"\t\t"+m.getNote());
                         button1.setBackground(ContextCompat.getDrawable(context,R.drawable.buttonshape));
 
                         linearLayout.addView(button1);
@@ -171,14 +171,23 @@ public class WeightProgress extends Fragment {
                         }
 
                     }
+                try {
+                    Arrays.sort(dataPoint,new DataPointCompare());
+                    graph.getViewport().setMinX(dataPoint[0].getX());
+                    graph.getViewport().setMaxX(dataPoint[dataPoint.length-1].getX());
+                    graph.getGridLabelRenderer().setNumHorizontalLabels(4); // only 4 because of the space
+                    graph.getGridLabelRenderer().setPadding(55);
+                    graph.getGridLabelRenderer().setHumanRounding(true);
 
-                Arrays.sort(dataPoint,new DataPointCompare());
-                graph.getViewport().setMinX(dataPoint[0].getX());
-                graph.getViewport().setMaxX(dataPoint[dataPoint.length-1].getX());
-                graph.getGridLabelRenderer().setNumHorizontalLabels(4); // only 4 because of the space
-                graph.getGridLabelRenderer().setHumanRounding(true);
+                    mSeries1.resetData(dataPoint);
+                }catch(Exception ex){
+                    Toast.makeText(context, "There was some sort of an error, we advice you to delete all your Data",
+                            Toast.LENGTH_LONG).show();
 
-                mSeries1.resetData(dataPoint);
+                        ex.printStackTrace();
+                }
+
+
 
             }
 
@@ -191,7 +200,7 @@ public class WeightProgress extends Fragment {
         mSeries1.setOnDataPointTapListener(new OnDataPointTapListener() {
             @Override
             public void onTap(Series series, DataPointInterface dataPoint) {
-                Toast.makeText(getActivity(), "Series1: On Data Point clicked: "+dataPoint, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(),""+ dataPoint.getX(), Toast.LENGTH_SHORT).show();
             }
         });
 
